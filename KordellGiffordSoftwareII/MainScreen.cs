@@ -214,5 +214,17 @@ namespace KordellGiffordSoftwareII
             WeekView(row, cell);
         }
         #endregion
+
+        private void customerRecords_Click(object sender, EventArgs e)
+        {
+            CustomerScreen customerScreen = new CustomerScreen();
+            customerScreen.Show();
+        }
+
+        private void reportsBtn_Click(object sender, EventArgs e)
+        {
+            ReportsScreen reportsScreen = new ReportsScreen();
+            reportsScreen.Show();
+        }
     }
 }

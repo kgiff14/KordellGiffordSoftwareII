@@ -28,8 +28,8 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
             this.appointmentsLabel = new System.Windows.Forms.Label();
             this.addAppBtn = new System.Windows.Forms.Button();
@@ -118,10 +118,10 @@
             this.calendar.Location = new System.Drawing.Point(13, 92);
             this.calendar.Name = "calendar";
             this.calendar.ReadOnly = true;
-            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.TopLeft;
-            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
-            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.Color.Black;
-            this.calendar.RowsDefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.TopLeft;
+            dataGridViewCellStyle3.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+            dataGridViewCellStyle3.SelectionForeColor = System.Drawing.Color.Black;
+            this.calendar.RowsDefaultCellStyle = dataGridViewCellStyle3;
             this.calendar.RowTemplate.Height = 85;
             this.calendar.RowTemplate.Resizable = System.Windows.Forms.DataGridViewTriState.True;
             this.calendar.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.CellSelect;
@@ -167,10 +167,10 @@
             this.weekCal.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.weekCal.Location = new System.Drawing.Point(13, 614);
             this.weekCal.Name = "weekCal";
-            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.TopCenter;
-            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.Color.Aqua;
-            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.Color.Black;
-            this.weekCal.RowsDefaultCellStyle = dataGridViewCellStyle2;
+            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.TopCenter;
+            dataGridViewCellStyle4.SelectionBackColor = System.Drawing.Color.Aqua;
+            dataGridViewCellStyle4.SelectionForeColor = System.Drawing.Color.Black;
+            this.weekCal.RowsDefaultCellStyle = dataGridViewCellStyle4;
             this.weekCal.RowTemplate.Height = 300;
             this.weekCal.Size = new System.Drawing.Size(1272, 328);
             this.weekCal.TabIndex = 11;
@@ -202,6 +202,7 @@
             this.customerRecords.TabIndex = 0;
             this.customerRecords.Text = "Customers";
             this.customerRecords.UseVisualStyleBackColor = true;
+            this.customerRecords.Click += new System.EventHandler(this.customerRecords_Click);
             // 
             // reportsBtn
             // 
@@ -211,6 +212,7 @@
             this.reportsBtn.TabIndex = 1;
             this.reportsBtn.Text = "Reports";
             this.reportsBtn.UseVisualStyleBackColor = true;
+            this.reportsBtn.Click += new System.EventHandler(this.reportsBtn_Click);
             // 
             // MainScreen
             // 
