@@ -21,9 +21,35 @@ namespace KordellGiffordSoftwareII
         DataAccess da = new DataAccess();
         DataTable dt = new DataTable();
 
-        private void Form1_Load(object sender, EventArgs e)
+        private void cancelBtn_Click(object sender, EventArgs e)
         {
-             dataGridView1.DataSource = da.Select("SELECT * FROM user");
+            Application.Exit();
+        }
+
+        private void loginBtn_Click(object sender, EventArgs e)
+        {
+            string username = usernameText.Text;
+            string password = passwordText.Text;
+
+            if (da.Select($"SELECT * FROM user WHERE userName='{username}';"))
+            {
+                if (da.Select($"SELECT * FROM user WHERE userName='{username}' AND password='{password}';"))
+                {
+                    this.Hide();
+                    MainScreen mainScreen = new MainScreen();
+                    mainScreen.Show();
+                    MessageBox.Show($"Welcome back {username}!");
+                }
+                else
+                {
+                    MessageBox.Show("Password does not match the Username.");
+
+                }
+            }
+            else
+            {
+                MessageBox.Show("Username does not exist.");
+            }
         }
     }
 }

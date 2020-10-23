@@ -81,7 +81,7 @@ namespace KordellGiffordSoftwareII
             }
         }
 
-        public DataTable Select(string query)
+        public bool Select(string query)
         {
             //Open connection
             if (this.OpenConnection() == true)
@@ -90,25 +90,24 @@ namespace KordellGiffordSoftwareII
                 //Create Command
                 MySqlCommand cmd = new MySqlCommand(query, connection);
                 //Create a data reader and Execute the command
-                MySqlDataAdapter ad = new MySqlDataAdapter(selectCommand: cmd);
-                ad.Fill(dt);
-                //MySqlDataReader dataReader = cmd.ExecuteReader();
-                //while (dataReader.Read())
-                //{
+                MySqlDataReader dataReader = cmd.ExecuteReader();
 
-                //}
-                ////close Data Reader
-                //dataReader.Close();
-
-                //close Connection
-                this.CloseConnection();
-
-                //return list to be displayed
-                return dt;
+                if (dataReader.HasRows)
+                {
+                    dataReader.Close();
+                    this.CloseConnection();
+                    return true;
+                }
+                else
+                {
+                    dataReader.Close();
+                    this.CloseConnection();
+                    return false;
+                }
             }
             else
             {
-                return null;
+                return false;
             }
         }
     }
