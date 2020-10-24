@@ -19,6 +19,8 @@ namespace KordellGiffordSoftwareII
             InitializeComponent();
         }
 
+        DataAccess da = new DataAccess();
+
         private void exitBtn_Click(object sender, EventArgs e)
         {
             Application.Exit();
@@ -225,6 +227,23 @@ namespace KordellGiffordSoftwareII
         {
             ReportsScreen reportsScreen = new ReportsScreen();
             reportsScreen.Show();
+        }
+
+        private void addAppBtn_Click(object sender, EventArgs e)
+        {
+            AddAppointment addAppointment = new AddAppointment();
+            addAppointment.Show();
+        }
+
+        private void updateAptBtn_Click(object sender, EventArgs e)
+        {
+            ModifyAppointment modifyAppointment = new ModifyAppointment();
+            modifyAppointment.Show();
+        }
+
+        private void deleteAptBtn_Click(object sender, EventArgs e)
+        {
+            
         }
     }
 }

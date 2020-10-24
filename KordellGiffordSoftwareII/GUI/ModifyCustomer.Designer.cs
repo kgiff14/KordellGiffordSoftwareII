@@ -207,7 +207,7 @@
             this.Controls.Add(this.cAddress);
             this.Controls.Add(this.cName);
             this.Name = "ModifyCustomer";
-            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Modify Customer";
             this.ResumeLayout(false);
             this.PerformLayout();

@@ -51,76 +51,80 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AddAppointment.cs">
+    <Compile Include="Controller\Repo.cs" />
+    <Compile Include="GUI\AddAppointment.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="AddAppointment.Designer.cs">
+    <Compile Include="GUI\AddAppointment.Designer.cs">
       <DependentUpon>AddAppointment.cs</DependentUpon>
     </Compile>
-    <Compile Include="AddCustomer.cs">
+    <Compile Include="GUI\AddCustomer.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="AddCustomer.Designer.cs">
+    <Compile Include="GUI\AddCustomer.Designer.cs">
       <DependentUpon>AddCustomer.cs</DependentUpon>
     </Compile>
-    <Compile Include="CustomerScreen.cs">
+    <Compile Include="Controller\Appointments.cs" />
+    <Compile Include="Controller\Customers.cs" />
+    <Compile Include="GUI\CustomerScreen.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="CustomerScreen.Designer.cs">
+    <Compile Include="GUI\CustomerScreen.Designer.cs">
       <DependentUpon>CustomerScreen.cs</DependentUpon>
     </Compile>
-    <Compile Include="DataAccess.cs" />
-    <Compile Include="Login.cs">
+    <Compile Include="DataAcces\DataAccess.cs" />
+    <Compile Include="GUI\Login.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Login.Designer.cs">
+    <Compile Include="GUI\Login.Designer.cs">
       <DependentUpon>Login.cs</DependentUpon>
     </Compile>
-    <Compile Include="MainScreen.cs">
+    <Compile Include="GUI\MainScreen.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="MainScreen.Designer.cs">
+    <Compile Include="GUI\MainScreen.Designer.cs">
       <DependentUpon>MainScreen.cs</DependentUpon>
     </Compile>
-    <Compile Include="ModifyAppointment.cs">
+    <Compile Include="GUI\ModifyAppointment.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="ModifyAppointment.Designer.cs">
+    <Compile Include="GUI\ModifyAppointment.Designer.cs">
       <DependentUpon>ModifyAppointment.cs</DependentUpon>
     </Compile>
-    <Compile Include="ModifyCustomer.cs">
+    <Compile Include="GUI\ModifyCustomer.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="ModifyCustomer.Designer.cs">
+    <Compile Include="GUI\ModifyCustomer.Designer.cs">
       <DependentUpon>ModifyCustomer.cs</DependentUpon>
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ReportsScreen.cs">
+    <Compile Include="Controller\Reports.cs" />
+    <Compile Include="GUI\ReportsScreen.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="ReportsScreen.Designer.cs">
+    <Compile Include="GUI\ReportsScreen.Designer.cs">
       <DependentUpon>ReportsScreen.cs</DependentUpon>
     </Compile>
-    <EmbeddedResource Include="AddAppointment.resx">
+    <EmbeddedResource Include="GUI\AddAppointment.resx">
       <DependentUpon>AddAppointment.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="AddCustomer.resx">
+    <EmbeddedResource Include="GUI\AddCustomer.resx">
       <DependentUpon>AddCustomer.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="CustomerScreen.resx">
+    <EmbeddedResource Include="GUI\CustomerScreen.resx">
       <DependentUpon>CustomerScreen.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Login.resx">
+    <EmbeddedResource Include="GUI\Login.resx">
       <DependentUpon>Login.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="MainScreen.resx">
+    <EmbeddedResource Include="GUI\MainScreen.resx">
       <DependentUpon>MainScreen.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="ModifyAppointment.resx">
+    <EmbeddedResource Include="GUI\ModifyAppointment.resx">
       <DependentUpon>ModifyAppointment.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="ModifyCustomer.resx">
+    <EmbeddedResource Include="GUI\ModifyCustomer.resx">
       <DependentUpon>ModifyCustomer.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
@@ -132,7 +136,7 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <EmbeddedResource Include="ReportsScreen.resx">
+    <EmbeddedResource Include="GUI\ReportsScreen.resx">
       <DependentUpon>ReportsScreen.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="Properties\Settings.settings">

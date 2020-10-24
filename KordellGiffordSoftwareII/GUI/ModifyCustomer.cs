@@ -10,9 +10,9 @@ using System.Windows.Forms;
 
 namespace KordellGiffordSoftwareII
 {
-    public partial class AddCustomer : Form
+    public partial class ModifyCustomer : Form
     {
-        public AddCustomer()
+        public ModifyCustomer()
         {
             InitializeComponent();
         }
@@ -20,6 +20,8 @@ namespace KordellGiffordSoftwareII
         private void canceBtn_Click(object sender, EventArgs e)
         {
             this.Close();
+            CustomerScreen customerScreen = new CustomerScreen();
+            customerScreen.Show();
         }
     }
 }

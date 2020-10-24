@@ -247,7 +247,7 @@
             this.Controls.Add(this.endLabel);
             this.Controls.Add(this.startLabel);
             this.Name = "ModifyAppointment";
-            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Modify Appointment";
             this.ResumeLayout(false);
             this.PerformLayout();

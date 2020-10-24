@@ -40,10 +40,10 @@
             this.nameIn = new System.Windows.Forms.TextBox();
             this.addressIn = new System.Windows.Forms.TextBox();
             this.address2In = new System.Windows.Forms.TextBox();
-            this.cityIn = new System.Windows.Forms.TextBox();
             this.postalIn = new System.Windows.Forms.TextBox();
-            this.countryIn = new System.Windows.Forms.TextBox();
             this.phoneIn = new System.Windows.Forms.TextBox();
+            this.cityIn = new System.Windows.Forms.ComboBox();
+            this.countryIn = new System.Windows.Forms.ComboBox();
             this.SuspendLayout();
             // 
             // cPhone
@@ -134,6 +134,7 @@
             this.saveBtn.TabIndex = 18;
             this.saveBtn.Text = "Save";
             this.saveBtn.UseVisualStyleBackColor = true;
+            this.saveBtn.Click += new System.EventHandler(this.saveBtn_Click);
             // 
             // nameIn
             // 
@@ -156,26 +157,12 @@
             this.address2In.Size = new System.Drawing.Size(123, 20);
             this.address2In.TabIndex = 21;
             // 
-            // cityIn
-            // 
-            this.cityIn.Location = new System.Drawing.Point(172, 188);
-            this.cityIn.Name = "cityIn";
-            this.cityIn.Size = new System.Drawing.Size(123, 20);
-            this.cityIn.TabIndex = 22;
-            // 
             // postalIn
             // 
             this.postalIn.Location = new System.Drawing.Point(172, 222);
             this.postalIn.Name = "postalIn";
             this.postalIn.Size = new System.Drawing.Size(123, 20);
             this.postalIn.TabIndex = 23;
-            // 
-            // countryIn
-            // 
-            this.countryIn.Location = new System.Drawing.Point(172, 254);
-            this.countryIn.Name = "countryIn";
-            this.countryIn.Size = new System.Drawing.Size(123, 20);
-            this.countryIn.TabIndex = 24;
             // 
             // phoneIn
             // 
@@ -184,16 +171,32 @@
             this.phoneIn.Size = new System.Drawing.Size(123, 20);
             this.phoneIn.TabIndex = 25;
             // 
+            // cityIn
+            // 
+            this.cityIn.FormattingEnabled = true;
+            this.cityIn.Location = new System.Drawing.Point(172, 188);
+            this.cityIn.Name = "cityIn";
+            this.cityIn.Size = new System.Drawing.Size(121, 21);
+            this.cityIn.TabIndex = 26;
+            // 
+            // countryIn
+            // 
+            this.countryIn.FormattingEnabled = true;
+            this.countryIn.Location = new System.Drawing.Point(172, 254);
+            this.countryIn.Name = "countryIn";
+            this.countryIn.Size = new System.Drawing.Size(121, 21);
+            this.countryIn.TabIndex = 27;
+            // 
             // AddCustomer
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.GradientActiveCaption;
             this.ClientSize = new System.Drawing.Size(352, 408);
-            this.Controls.Add(this.phoneIn);
             this.Controls.Add(this.countryIn);
-            this.Controls.Add(this.postalIn);
             this.Controls.Add(this.cityIn);
+            this.Controls.Add(this.phoneIn);
+            this.Controls.Add(this.postalIn);
             this.Controls.Add(this.address2In);
             this.Controls.Add(this.addressIn);
             this.Controls.Add(this.nameIn);
@@ -207,8 +210,9 @@
             this.Controls.Add(this.cAddress);
             this.Controls.Add(this.cName);
             this.Name = "AddCustomer";
-            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Add Customer";
+            this.Load += new System.EventHandler(this.AddCustomer_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -228,9 +232,9 @@
         private System.Windows.Forms.TextBox nameIn;
         private System.Windows.Forms.TextBox addressIn;
         private System.Windows.Forms.TextBox address2In;
-        private System.Windows.Forms.TextBox cityIn;
         private System.Windows.Forms.TextBox postalIn;
-        private System.Windows.Forms.TextBox countryIn;
         private System.Windows.Forms.TextBox phoneIn;
+        private System.Windows.Forms.ComboBox cityIn;
+        private System.Windows.Forms.ComboBox countryIn;
     }
 }

@@ -28,8 +28,8 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
             this.appointmentsLabel = new System.Windows.Forms.Label();
             this.addAppBtn = new System.Windows.Forms.Button();
@@ -77,6 +77,7 @@
             this.addAppBtn.TabIndex = 2;
             this.addAppBtn.Text = "Add Apt.";
             this.addAppBtn.UseVisualStyleBackColor = true;
+            this.addAppBtn.Click += new System.EventHandler(this.addAppBtn_Click);
             // 
             // updateAptBtn
             // 
@@ -86,6 +87,7 @@
             this.updateAptBtn.TabIndex = 3;
             this.updateAptBtn.Text = "Update Apt.";
             this.updateAptBtn.UseVisualStyleBackColor = true;
+            this.updateAptBtn.Click += new System.EventHandler(this.updateAptBtn_Click);
             // 
             // deleteAptBtn
             // 
@@ -95,6 +97,7 @@
             this.deleteAptBtn.TabIndex = 4;
             this.deleteAptBtn.Text = "Delete Apt.";
             this.deleteAptBtn.UseVisualStyleBackColor = true;
+            this.deleteAptBtn.Click += new System.EventHandler(this.deleteAptBtn_Click);
             // 
             // exitBtn
             // 
@@ -118,10 +121,10 @@
             this.calendar.Location = new System.Drawing.Point(13, 92);
             this.calendar.Name = "calendar";
             this.calendar.ReadOnly = true;
-            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.TopLeft;
-            dataGridViewCellStyle3.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
-            dataGridViewCellStyle3.SelectionForeColor = System.Drawing.Color.Black;
-            this.calendar.RowsDefaultCellStyle = dataGridViewCellStyle3;
+            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.TopLeft;
+            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.Color.Black;
+            this.calendar.RowsDefaultCellStyle = dataGridViewCellStyle1;
             this.calendar.RowTemplate.Height = 85;
             this.calendar.RowTemplate.Resizable = System.Windows.Forms.DataGridViewTriState.True;
             this.calendar.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.CellSelect;
@@ -167,10 +170,10 @@
             this.weekCal.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.weekCal.Location = new System.Drawing.Point(13, 614);
             this.weekCal.Name = "weekCal";
-            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.TopCenter;
-            dataGridViewCellStyle4.SelectionBackColor = System.Drawing.Color.Aqua;
-            dataGridViewCellStyle4.SelectionForeColor = System.Drawing.Color.Black;
-            this.weekCal.RowsDefaultCellStyle = dataGridViewCellStyle4;
+            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.TopCenter;
+            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.Color.Aqua;
+            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.Color.Black;
+            this.weekCal.RowsDefaultCellStyle = dataGridViewCellStyle2;
             this.weekCal.RowTemplate.Height = 300;
             this.weekCal.Size = new System.Drawing.Size(1272, 328);
             this.weekCal.TabIndex = 11;

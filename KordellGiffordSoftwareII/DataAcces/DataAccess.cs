@@ -34,7 +34,12 @@ namespace KordellGiffordSoftwareII
             connection = new MySqlConnection(connectionString);
         }
 
-        private bool OpenConnection()
+        public MySqlConnection connectionS()
+        {
+            return connection;
+        }
+
+        public bool OpenConnection()
         {
             try
             {
@@ -57,7 +62,7 @@ namespace KordellGiffordSoftwareII
             }
         }
 
-        private bool CloseConnection()
+        public bool CloseConnection()
         {
             try
             {
