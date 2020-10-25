@@ -29,9 +29,7 @@
         private void InitializeComponent()
         {
             this.phoneIn = new System.Windows.Forms.TextBox();
-            this.countryIn = new System.Windows.Forms.TextBox();
             this.postalIn = new System.Windows.Forms.TextBox();
-            this.cityIn = new System.Windows.Forms.TextBox();
             this.address2In = new System.Windows.Forms.TextBox();
             this.addressIn = new System.Windows.Forms.TextBox();
             this.nameIn = new System.Windows.Forms.TextBox();
@@ -44,6 +42,8 @@
             this.cCity = new System.Windows.Forms.Label();
             this.cAddress = new System.Windows.Forms.Label();
             this.cName = new System.Windows.Forms.Label();
+            this.cityIn = new System.Windows.Forms.ComboBox();
+            this.countryIn = new System.Windows.Forms.ComboBox();
             this.SuspendLayout();
             // 
             // phoneIn
@@ -52,13 +52,7 @@
             this.phoneIn.Name = "phoneIn";
             this.phoneIn.Size = new System.Drawing.Size(123, 20);
             this.phoneIn.TabIndex = 41;
-            // 
-            // countryIn
-            // 
-            this.countryIn.Location = new System.Drawing.Point(152, 243);
-            this.countryIn.Name = "countryIn";
-            this.countryIn.Size = new System.Drawing.Size(123, 20);
-            this.countryIn.TabIndex = 40;
+            this.phoneIn.TextChanged += new System.EventHandler(this.phoneIn_TextChanged);
             // 
             // postalIn
             // 
@@ -66,13 +60,7 @@
             this.postalIn.Name = "postalIn";
             this.postalIn.Size = new System.Drawing.Size(123, 20);
             this.postalIn.TabIndex = 39;
-            // 
-            // cityIn
-            // 
-            this.cityIn.Location = new System.Drawing.Point(152, 177);
-            this.cityIn.Name = "cityIn";
-            this.cityIn.Size = new System.Drawing.Size(123, 20);
-            this.cityIn.TabIndex = 38;
+            this.postalIn.TextChanged += new System.EventHandler(this.postalIn_TextChanged);
             // 
             // address2In
             // 
@@ -80,6 +68,7 @@
             this.address2In.Name = "address2In";
             this.address2In.Size = new System.Drawing.Size(123, 20);
             this.address2In.TabIndex = 37;
+            this.address2In.TextChanged += new System.EventHandler(this.address2In_TextChanged);
             // 
             // addressIn
             // 
@@ -87,6 +76,7 @@
             this.addressIn.Name = "addressIn";
             this.addressIn.Size = new System.Drawing.Size(123, 20);
             this.addressIn.TabIndex = 36;
+            this.addressIn.TextChanged += new System.EventHandler(this.addressIn_TextChanged);
             // 
             // nameIn
             // 
@@ -94,6 +84,7 @@
             this.nameIn.Name = "nameIn";
             this.nameIn.Size = new System.Drawing.Size(123, 20);
             this.nameIn.TabIndex = 35;
+            this.nameIn.TextChanged += new System.EventHandler(this.nameIn_TextChanged);
             // 
             // saveBtn
             // 
@@ -103,6 +94,7 @@
             this.saveBtn.TabIndex = 34;
             this.saveBtn.Text = "Save";
             this.saveBtn.UseVisualStyleBackColor = true;
+            this.saveBtn.Click += new System.EventHandler(this.saveBtn_Click);
             // 
             // canceBtn
             // 
@@ -184,16 +176,34 @@
             this.cName.TabIndex = 26;
             this.cName.Text = "Name:";
             // 
+            // cityIn
+            // 
+            this.cityIn.FormattingEnabled = true;
+            this.cityIn.Location = new System.Drawing.Point(152, 177);
+            this.cityIn.Name = "cityIn";
+            this.cityIn.Size = new System.Drawing.Size(121, 21);
+            this.cityIn.TabIndex = 42;
+            this.cityIn.SelectedIndexChanged += new System.EventHandler(this.cityIn_SelectedIndexChanged);
+            // 
+            // countryIn
+            // 
+            this.countryIn.FormattingEnabled = true;
+            this.countryIn.Location = new System.Drawing.Point(152, 243);
+            this.countryIn.Name = "countryIn";
+            this.countryIn.Size = new System.Drawing.Size(121, 21);
+            this.countryIn.TabIndex = 43;
+            this.countryIn.SelectedIndexChanged += new System.EventHandler(this.countryIn_SelectedIndexChanged);
+            // 
             // ModifyCustomer
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.GradientActiveCaption;
             this.ClientSize = new System.Drawing.Size(332, 397);
-            this.Controls.Add(this.phoneIn);
             this.Controls.Add(this.countryIn);
-            this.Controls.Add(this.postalIn);
             this.Controls.Add(this.cityIn);
+            this.Controls.Add(this.phoneIn);
+            this.Controls.Add(this.postalIn);
             this.Controls.Add(this.address2In);
             this.Controls.Add(this.addressIn);
             this.Controls.Add(this.nameIn);
@@ -209,6 +219,7 @@
             this.Name = "ModifyCustomer";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Modify Customer";
+            this.Load += new System.EventHandler(this.ModifyCustomer_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -217,9 +228,7 @@
         #endregion
 
         private System.Windows.Forms.TextBox phoneIn;
-        private System.Windows.Forms.TextBox countryIn;
         private System.Windows.Forms.TextBox postalIn;
-        private System.Windows.Forms.TextBox cityIn;
         private System.Windows.Forms.TextBox address2In;
         private System.Windows.Forms.TextBox addressIn;
         private System.Windows.Forms.TextBox nameIn;
@@ -232,5 +241,7 @@
         private System.Windows.Forms.Label cCity;
         private System.Windows.Forms.Label cAddress;
         private System.Windows.Forms.Label cName;
+        private System.Windows.Forms.ComboBox cityIn;
+        private System.Windows.Forms.ComboBox countryIn;
     }
 }

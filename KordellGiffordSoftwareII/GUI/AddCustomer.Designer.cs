@@ -138,54 +138,68 @@
             // 
             // nameIn
             // 
+            this.nameIn.BackColor = System.Drawing.Color.Salmon;
             this.nameIn.Location = new System.Drawing.Point(172, 89);
             this.nameIn.Name = "nameIn";
             this.nameIn.Size = new System.Drawing.Size(123, 20);
             this.nameIn.TabIndex = 19;
+            this.nameIn.TextChanged += new System.EventHandler(this.nameIn_TextChanged);
             // 
             // addressIn
             // 
+            this.addressIn.BackColor = System.Drawing.Color.Salmon;
             this.addressIn.Location = new System.Drawing.Point(172, 122);
             this.addressIn.Name = "addressIn";
             this.addressIn.Size = new System.Drawing.Size(123, 20);
             this.addressIn.TabIndex = 20;
+            this.addressIn.TextChanged += new System.EventHandler(this.addressIn_TextChanged);
             // 
             // address2In
             // 
+            this.address2In.BackColor = System.Drawing.Color.Salmon;
             this.address2In.Location = new System.Drawing.Point(172, 156);
             this.address2In.Name = "address2In";
             this.address2In.Size = new System.Drawing.Size(123, 20);
             this.address2In.TabIndex = 21;
+            this.address2In.TextChanged += new System.EventHandler(this.address2In_TextChanged);
             // 
             // postalIn
             // 
+            this.postalIn.BackColor = System.Drawing.Color.Salmon;
             this.postalIn.Location = new System.Drawing.Point(172, 222);
             this.postalIn.Name = "postalIn";
             this.postalIn.Size = new System.Drawing.Size(123, 20);
             this.postalIn.TabIndex = 23;
+            this.postalIn.TextChanged += new System.EventHandler(this.postalIn_TextChanged);
             // 
             // phoneIn
             // 
+            this.phoneIn.BackColor = System.Drawing.Color.Salmon;
             this.phoneIn.Location = new System.Drawing.Point(172, 289);
             this.phoneIn.Name = "phoneIn";
             this.phoneIn.Size = new System.Drawing.Size(123, 20);
             this.phoneIn.TabIndex = 25;
+            this.phoneIn.TextChanged += new System.EventHandler(this.phoneIn_TextChanged);
             // 
             // cityIn
             // 
+            this.cityIn.BackColor = System.Drawing.Color.White;
             this.cityIn.FormattingEnabled = true;
             this.cityIn.Location = new System.Drawing.Point(172, 188);
             this.cityIn.Name = "cityIn";
             this.cityIn.Size = new System.Drawing.Size(121, 21);
             this.cityIn.TabIndex = 26;
+            this.cityIn.SelectedIndexChanged += new System.EventHandler(this.cityIn_SelectedIndexChanged);
             // 
             // countryIn
             // 
+            this.countryIn.BackColor = System.Drawing.Color.White;
             this.countryIn.FormattingEnabled = true;
             this.countryIn.Location = new System.Drawing.Point(172, 254);
             this.countryIn.Name = "countryIn";
             this.countryIn.Size = new System.Drawing.Size(121, 21);
             this.countryIn.TabIndex = 27;
+            this.countryIn.SelectedIndexChanged += new System.EventHandler(this.countryIn_SelectedIndexChanged);
             // 
             // AddCustomer
             // 

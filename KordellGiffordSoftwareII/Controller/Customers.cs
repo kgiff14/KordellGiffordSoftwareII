@@ -32,44 +32,5 @@ namespace KordellGiffordSoftwareII
             this.city = city;
         }
 
-        //public bool DeleteCustomer(int id)
-        //{
-
-        //}
-
-        //public bool ModifyCustomer(int id)
-        //{
-
-        //}
-
-        //public bool AddCustomer(Customers customers)
-        //{
-
-        //}
-
-        //public Customers LookupCustomer(int id)
-        //{
-
-        //}
-
-        //public List<string> GetAllCustomers()
-        //{
-        //    DataAccess da = new DataAccess();
-        //    List<string> cList = new List<string>();
-        //    da.OpenConnection();
-        //    using (var command = new SqlCommand("GetAllCustomers") { CommandType = System.Data.CommandType.StoredProcedure })
-        //    {
-        //        using (SqlDataReader rdr = command.ExecuteReader())
-        //        {
-        //            while (rdr.Read())
-        //            {
-        //                cList.Add(new Customers(Convert.ToInt32(rdr["customerId"]), rdr["customerName"].ToString(), Convert.ToInt32(rdr["addressId"]), Convert.ToSByte(rdr["active"]), 
-        //                    Convert.ToDateTime(rdr["createDate"]), rdr["createdBy"].ToString(), Convert.ToDateTime(rdr["lastUpdateBy"]), rdr["lastUpdateBy"].ToString()));
-        //            }
-        //        }
-        //    }
-        //    da.CloseConnection();
-        //    return customers;
-        //}
     }
 }

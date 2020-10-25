@@ -30,7 +30,8 @@
         {
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
-            this.dataGridView1 = new System.Windows.Forms.DataGridView();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
+            this.appointmentsTable = new System.Windows.Forms.DataGridView();
             this.appointmentsLabel = new System.Windows.Forms.Label();
             this.addAppBtn = new System.Windows.Forms.Button();
             this.updateAptBtn = new System.Windows.Forms.Button();
@@ -45,19 +46,26 @@
             this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
             this.customerRecords = new System.Windows.Forms.Button();
             this.reportsBtn = new System.Windows.Forms.Button();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.appointmentsTable)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.calendar)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.weekCal)).BeginInit();
             this.flowLayoutPanel1.SuspendLayout();
             this.SuspendLayout();
             // 
-            // dataGridView1
+            // appointmentsTable
             // 
-            this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView1.Location = new System.Drawing.Point(831, 92);
-            this.dataGridView1.Name = "dataGridView1";
-            this.dataGridView1.Size = new System.Drawing.Size(454, 476);
-            this.dataGridView1.TabIndex = 0;
+            this.appointmentsTable.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
+            this.appointmentsTable.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.appointmentsTable.Location = new System.Drawing.Point(831, 92);
+            this.appointmentsTable.Name = "appointmentsTable";
+            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.Color.Aqua;
+            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.Color.Black;
+            this.appointmentsTable.RowsDefaultCellStyle = dataGridViewCellStyle1;
+            this.appointmentsTable.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.appointmentsTable.Size = new System.Drawing.Size(454, 476);
+            this.appointmentsTable.TabIndex = 0;
+            this.appointmentsTable.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.appointmentsTable_CellContentClick);
+            this.appointmentsTable.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.appointmentsTable_CellContentClick);
             // 
             // appointmentsLabel
             // 
@@ -121,10 +129,10 @@
             this.calendar.Location = new System.Drawing.Point(13, 92);
             this.calendar.Name = "calendar";
             this.calendar.ReadOnly = true;
-            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.TopLeft;
-            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
-            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.Color.Black;
-            this.calendar.RowsDefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.TopLeft;
+            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.Color.Black;
+            this.calendar.RowsDefaultCellStyle = dataGridViewCellStyle2;
             this.calendar.RowTemplate.Height = 85;
             this.calendar.RowTemplate.Resizable = System.Windows.Forms.DataGridViewTriState.True;
             this.calendar.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.CellSelect;
@@ -170,10 +178,10 @@
             this.weekCal.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.weekCal.Location = new System.Drawing.Point(13, 614);
             this.weekCal.Name = "weekCal";
-            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.TopCenter;
-            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.Color.Aqua;
-            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.Color.Black;
-            this.weekCal.RowsDefaultCellStyle = dataGridViewCellStyle2;
+            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.TopCenter;
+            dataGridViewCellStyle3.SelectionBackColor = System.Drawing.Color.Aqua;
+            dataGridViewCellStyle3.SelectionForeColor = System.Drawing.Color.Black;
+            this.weekCal.RowsDefaultCellStyle = dataGridViewCellStyle3;
             this.weekCal.RowTemplate.Height = 300;
             this.weekCal.Size = new System.Drawing.Size(1272, 328);
             this.weekCal.TabIndex = 11;
@@ -235,12 +243,12 @@
             this.Controls.Add(this.updateAptBtn);
             this.Controls.Add(this.addAppBtn);
             this.Controls.Add(this.appointmentsLabel);
-            this.Controls.Add(this.dataGridView1);
+            this.Controls.Add(this.appointmentsTable);
             this.Name = "MainScreen";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "MainScreen";
             this.Load += new System.EventHandler(this.MainScreen_Load);
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.appointmentsTable)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.calendar)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.weekCal)).EndInit();
             this.flowLayoutPanel1.ResumeLayout(false);
@@ -251,7 +259,7 @@
 
         #endregion
 
-        private System.Windows.Forms.DataGridView dataGridView1;
+        private System.Windows.Forms.DataGridView appointmentsTable;
         private System.Windows.Forms.Label appointmentsLabel;
         private System.Windows.Forms.Button addAppBtn;
         private System.Windows.Forms.Button updateAptBtn;

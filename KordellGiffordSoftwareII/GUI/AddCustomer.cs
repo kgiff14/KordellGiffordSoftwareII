@@ -7,6 +7,7 @@ using System.Data;
 using System.Drawing;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -17,6 +18,7 @@ namespace KordellGiffordSoftwareII
         public AddCustomer()
         {
             InitializeComponent();
+            AllowSave();
         }
 
         private void canceBtn_Click(object sender, EventArgs e)
@@ -102,6 +104,116 @@ namespace KordellGiffordSoftwareII
             }
             countryIn.DataSource = countries;
             da.CloseConnection();
+            cityIn.BackColor = Color.White;
+        }
+
+        private void AllowSave()
+        {
+            if (addressIn.BackColor == Color.White && address2In.BackColor == Color.White && nameIn.BackColor == Color.White && postalIn.BackColor == Color.White && countryIn.BackColor == Color.White
+                && cityIn.BackColor == Color.White && phoneIn.BackColor == Color.White)
+            {
+                saveBtn.Enabled = true;
+            }
+            else
+            {
+                saveBtn.Enabled = false;
+            }
+        }
+
+        private void nameIn_TextChanged(object sender, EventArgs e)
+        {
+            if (string.IsNullOrEmpty(nameIn.Text) || nameIn.Text.All(char.IsDigit))
+            {
+                nameIn.BackColor = Color.Salmon;
+            }
+            else
+            {
+                nameIn.BackColor = Color.White;
+            }
+            AllowSave();
+        }
+
+        private void addressIn_TextChanged(object sender, EventArgs e)
+        {
+            if (string.IsNullOrEmpty(addressIn.Text))
+            {
+                addressIn.BackColor = Color.Salmon;
+            }
+            else
+            {
+                addressIn.BackColor = Color.White;
+            }
+            AllowSave();
+        }
+
+        private void address2In_TextChanged(object sender, EventArgs e)
+        {
+            if (string.IsNullOrEmpty(address2In.Text))
+            {
+                address2In.BackColor = Color.Salmon;
+            }
+            else
+            {
+                address2In.BackColor = Color.White;
+            }
+            AllowSave();
+        }
+
+        private void postalIn_TextChanged(object sender, EventArgs e)
+        {
+            if (string.IsNullOrEmpty(postalIn.Text) || postalIn.Text.Length != 5)
+            {
+                postalIn.BackColor = Color.Salmon;
+            }
+            else
+            {
+                postalIn.BackColor = Color.White;
+            }
+            AllowSave();
+        }
+
+        private void phoneIn_TextChanged(object sender, EventArgs e)
+        {
+            try
+            {
+                if (string.IsNullOrEmpty(phoneIn.Text) || Regex.IsMatch(@"^((\(\d{3}\) ?)|(\d{3}-))?\d{3}-\d{4}$", phoneIn.Text) || phoneIn.Text.Length != 12)
+                {
+                    phoneIn.BackColor = Color.Salmon;
+                }
+                else
+                {
+                    phoneIn.BackColor = Color.White;
+                }
+                AllowSave();
+            }
+            catch
+            {
+                //intentionally empty
+            }
+        }
+
+        private void cityIn_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if ((cityIn.Text == "Phoenix" && countryIn.Text == "USA") || (cityIn.Text == "New York" && countryIn.Text == "USA") || (cityIn.Text == "London" && countryIn.Text == "United Kingdom"))
+            {
+                cityIn.BackColor = Color.White;
+            }
+            else
+            {
+                cityIn.BackColor = Color.Salmon;
+            }
+        }
+
+        private void countryIn_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if ((cityIn.Text == "Phoenix" && countryIn.Text == "USA") || (cityIn.Text == "New York" && countryIn.Text == "USA") || (cityIn.Text == "London" && countryIn.Text == "United Kingdom"))
+            {
+                countryIn.BackColor = Color.White;
+            }
+            else
+            {
+                countryIn.BackColor = Color.Salmon;
+            }
         }
     }
 }

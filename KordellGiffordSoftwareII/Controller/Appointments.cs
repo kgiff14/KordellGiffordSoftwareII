@@ -8,6 +8,7 @@ namespace KordellGiffordSoftwareII
 {
     public class Appointments
     {
+        public int appointmentId { get; set; }
         public int customerId { get; set; }
         public int userId { get; set; }
         public string title { get; set; }
@@ -20,12 +21,14 @@ namespace KordellGiffordSoftwareII
         public DateTime end { get; set; }
 
 
-        public Appointments(int cId, int uId, string title, string description, string contact, string type, string url, DateTime start, DateTime end)
+        public Appointments(int aId, int cId, int uId, string title, string description, string location, string contact, string type, string url, DateTime start, DateTime end)
         {
+            appointmentId = aId;
             customerId = cId;
             userId = uId;
             this.title = title;
             this.description = description;
+            this.location = location;
             this.contact = contact;
             this.type = type;
             this.url = url;

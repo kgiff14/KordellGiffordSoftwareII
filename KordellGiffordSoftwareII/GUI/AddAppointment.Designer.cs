@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.startLabel = new System.Windows.Forms.Label();
             this.endLabel = new System.Windows.Forms.Label();
             this.customerLabel = new System.Windows.Forms.Label();
@@ -38,16 +39,19 @@
             this.urlLabel = new System.Windows.Forms.Label();
             this.titleIn = new System.Windows.Forms.TextBox();
             this.locationIn = new System.Windows.Forms.TextBox();
-            this.typeIn = new System.Windows.Forms.TextBox();
             this.urlIn = new System.Windows.Forms.TextBox();
             this.descriptionIn = new System.Windows.Forms.TextBox();
             this.customerIn = new System.Windows.Forms.ComboBox();
             this.startDate = new System.Windows.Forms.DateTimePicker();
             this.endDate = new System.Windows.Forms.DateTimePicker();
-            this.startHour = new System.Windows.Forms.TextBox();
-            this.endHour = new System.Windows.Forms.TextBox();
             this.cancelBtn = new System.Windows.Forms.Button();
             this.saveBtn = new System.Windows.Forms.Button();
+            this.timer1 = new System.Windows.Forms.Timer(this.components);
+            this.startTime = new System.Windows.Forms.DateTimePicker();
+            this.endTime = new System.Windows.Forms.DateTimePicker();
+            this.contactIn = new System.Windows.Forms.TextBox();
+            this.contactLabel = new System.Windows.Forms.Label();
+            this.typeIn = new System.Windows.Forms.ComboBox();
             this.SuspendLayout();
             // 
             // startLabel
@@ -124,7 +128,7 @@
             // 
             this.urlLabel.AutoSize = true;
             this.urlLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.urlLabel.Location = new System.Drawing.Point(51, 315);
+            this.urlLabel.Location = new System.Drawing.Point(51, 343);
             this.urlLabel.Name = "urlLabel";
             this.urlLabel.Size = new System.Drawing.Size(30, 17);
             this.urlLabel.TabIndex = 7;
@@ -132,53 +136,58 @@
             // 
             // titleIn
             // 
+            this.titleIn.BackColor = System.Drawing.Color.Salmon;
             this.titleIn.Location = new System.Drawing.Point(141, 44);
             this.titleIn.Name = "titleIn";
             this.titleIn.Size = new System.Drawing.Size(137, 20);
             this.titleIn.TabIndex = 8;
+            this.titleIn.TextChanged += new System.EventHandler(this.titleIn_TextChanged);
             // 
             // locationIn
             // 
+            this.locationIn.BackColor = System.Drawing.Color.Salmon;
             this.locationIn.Location = new System.Drawing.Point(141, 147);
             this.locationIn.Name = "locationIn";
             this.locationIn.Size = new System.Drawing.Size(130, 20);
             this.locationIn.TabIndex = 9;
-            // 
-            // typeIn
-            // 
-            this.typeIn.Location = new System.Drawing.Point(141, 187);
-            this.typeIn.Name = "typeIn";
-            this.typeIn.Size = new System.Drawing.Size(130, 20);
-            this.typeIn.TabIndex = 10;
+            this.locationIn.TextChanged += new System.EventHandler(this.locationIn_TextChanged);
             // 
             // urlIn
             // 
-            this.urlIn.Location = new System.Drawing.Point(141, 315);
+            this.urlIn.BackColor = System.Drawing.Color.Salmon;
+            this.urlIn.Location = new System.Drawing.Point(141, 343);
             this.urlIn.Name = "urlIn";
             this.urlIn.Size = new System.Drawing.Size(231, 20);
             this.urlIn.TabIndex = 11;
+            this.urlIn.TextChanged += new System.EventHandler(this.urlIn_TextChanged);
             // 
             // descriptionIn
             // 
+            this.descriptionIn.BackColor = System.Drawing.Color.Salmon;
             this.descriptionIn.Location = new System.Drawing.Point(141, 227);
             this.descriptionIn.Name = "descriptionIn";
             this.descriptionIn.Size = new System.Drawing.Size(231, 20);
             this.descriptionIn.TabIndex = 12;
+            this.descriptionIn.TextChanged += new System.EventHandler(this.descriptionIn_TextChanged);
             // 
             // customerIn
             // 
+            this.customerIn.BackColor = System.Drawing.Color.White;
             this.customerIn.FormattingEnabled = true;
             this.customerIn.Location = new System.Drawing.Point(141, 268);
             this.customerIn.Name = "customerIn";
             this.customerIn.Size = new System.Drawing.Size(161, 21);
             this.customerIn.TabIndex = 13;
+            this.customerIn.SelectedIndexChanged += new System.EventHandler(this.customerIn_SelectedIndexChanged);
             // 
             // startDate
             // 
+            this.startDate.CalendarMonthBackground = System.Drawing.Color.White;
             this.startDate.Location = new System.Drawing.Point(141, 102);
             this.startDate.Name = "startDate";
             this.startDate.Size = new System.Drawing.Size(200, 20);
             this.startDate.TabIndex = 14;
+            this.startDate.ValueChanged += new System.EventHandler(this.startDate_ValueChanged);
             // 
             // endDate
             // 
@@ -186,20 +195,7 @@
             this.endDate.Name = "endDate";
             this.endDate.Size = new System.Drawing.Size(200, 20);
             this.endDate.TabIndex = 15;
-            // 
-            // startHour
-            // 
-            this.startHour.Location = new System.Drawing.Point(348, 102);
-            this.startHour.Name = "startHour";
-            this.startHour.Size = new System.Drawing.Size(86, 20);
-            this.startHour.TabIndex = 16;
-            // 
-            // endHour
-            // 
-            this.endHour.Location = new System.Drawing.Point(689, 102);
-            this.endHour.Name = "endHour";
-            this.endHour.Size = new System.Drawing.Size(86, 20);
-            this.endHour.TabIndex = 17;
+            this.endDate.ValueChanged += new System.EventHandler(this.endDate_ValueChanged);
             // 
             // cancelBtn
             // 
@@ -219,6 +215,60 @@
             this.saveBtn.TabIndex = 19;
             this.saveBtn.Text = "Save";
             this.saveBtn.UseVisualStyleBackColor = true;
+            this.saveBtn.Click += new System.EventHandler(this.saveBtn_Click);
+            // 
+            // timer1
+            // 
+            this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
+            // 
+            // startTime
+            // 
+            this.startTime.Format = System.Windows.Forms.DateTimePickerFormat.Time;
+            this.startTime.Location = new System.Drawing.Point(347, 102);
+            this.startTime.Name = "startTime";
+            this.startTime.ShowUpDown = true;
+            this.startTime.Size = new System.Drawing.Size(86, 20);
+            this.startTime.TabIndex = 20;
+            this.startTime.ValueChanged += new System.EventHandler(this.startTime_ValueChanged);
+            // 
+            // endTime
+            // 
+            this.endTime.Format = System.Windows.Forms.DateTimePickerFormat.Time;
+            this.endTime.Location = new System.Drawing.Point(689, 102);
+            this.endTime.Name = "endTime";
+            this.endTime.ShowUpDown = true;
+            this.endTime.Size = new System.Drawing.Size(86, 20);
+            this.endTime.TabIndex = 21;
+            this.endTime.ValueChanged += new System.EventHandler(this.endTime_ValueChanged);
+            // 
+            // contactIn
+            // 
+            this.contactIn.BackColor = System.Drawing.Color.Salmon;
+            this.contactIn.Location = new System.Drawing.Point(141, 304);
+            this.contactIn.Name = "contactIn";
+            this.contactIn.Size = new System.Drawing.Size(161, 20);
+            this.contactIn.TabIndex = 23;
+            this.contactIn.TextChanged += new System.EventHandler(this.contactIn_TextChanged);
+            // 
+            // contactLabel
+            // 
+            this.contactLabel.AutoSize = true;
+            this.contactLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.contactLabel.Location = new System.Drawing.Point(51, 304);
+            this.contactLabel.Name = "contactLabel";
+            this.contactLabel.Size = new System.Drawing.Size(60, 17);
+            this.contactLabel.TabIndex = 22;
+            this.contactLabel.Text = "Contact:";
+            // 
+            // typeIn
+            // 
+            this.typeIn.BackColor = System.Drawing.Color.White;
+            this.typeIn.FormattingEnabled = true;
+            this.typeIn.Location = new System.Drawing.Point(141, 187);
+            this.typeIn.Name = "typeIn";
+            this.typeIn.Size = new System.Drawing.Size(121, 21);
+            this.typeIn.TabIndex = 24;
+            this.typeIn.SelectedIndexChanged += new System.EventHandler(this.typeIn_SelectedIndexChanged);
             // 
             // AddAppointment
             // 
@@ -226,16 +276,18 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.GradientActiveCaption;
             this.ClientSize = new System.Drawing.Size(800, 396);
+            this.Controls.Add(this.typeIn);
+            this.Controls.Add(this.contactIn);
+            this.Controls.Add(this.contactLabel);
+            this.Controls.Add(this.endTime);
+            this.Controls.Add(this.startTime);
             this.Controls.Add(this.saveBtn);
             this.Controls.Add(this.cancelBtn);
-            this.Controls.Add(this.endHour);
-            this.Controls.Add(this.startHour);
             this.Controls.Add(this.endDate);
             this.Controls.Add(this.startDate);
             this.Controls.Add(this.customerIn);
             this.Controls.Add(this.descriptionIn);
             this.Controls.Add(this.urlIn);
-            this.Controls.Add(this.typeIn);
             this.Controls.Add(this.locationIn);
             this.Controls.Add(this.titleIn);
             this.Controls.Add(this.urlLabel);
@@ -249,6 +301,7 @@
             this.Name = "AddAppointment";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Add Appointment";
+            this.Load += new System.EventHandler(this.AddAppointment_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -266,15 +319,18 @@
         private System.Windows.Forms.Label urlLabel;
         private System.Windows.Forms.TextBox titleIn;
         private System.Windows.Forms.TextBox locationIn;
-        private System.Windows.Forms.TextBox typeIn;
         private System.Windows.Forms.TextBox urlIn;
         private System.Windows.Forms.TextBox descriptionIn;
         private System.Windows.Forms.ComboBox customerIn;
         private System.Windows.Forms.DateTimePicker startDate;
         private System.Windows.Forms.DateTimePicker endDate;
-        private System.Windows.Forms.TextBox startHour;
-        private System.Windows.Forms.TextBox endHour;
         private System.Windows.Forms.Button cancelBtn;
         private System.Windows.Forms.Button saveBtn;
+        private System.Windows.Forms.Timer timer1;
+        private System.Windows.Forms.DateTimePicker startTime;
+        private System.Windows.Forms.DateTimePicker endTime;
+        private System.Windows.Forms.TextBox contactIn;
+        private System.Windows.Forms.Label contactLabel;
+        private System.Windows.Forms.ComboBox typeIn;
     }
 }

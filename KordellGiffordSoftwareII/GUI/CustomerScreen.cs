@@ -33,24 +33,18 @@ namespace KordellGiffordSoftwareII
 
         private void modifyBtn_Click(object sender, EventArgs e)
         {
-            this.Hide();
             ModifyCustomer modifyCustomer = new ModifyCustomer();
-            modifyCustomer.Show();
+            if (Repo.Index > -1)
+            {
+                Repo.Index = Convert.ToInt32(customerList.SelectedRows[0].Cells[0].Value.ToString());
+                this.Hide();
+                modifyCustomer.Show();
+            }
+            else
+            {
+                MessageBox.Show("You must select a customer.");
+            }
         }
-
-        //private void CustomerScreen_Load(object sender, EventArgs e)
-        //{
-        //    //Grab all the customers and put it into a generic list.
-        //    var all = Repo.GetAllCustomers();
-        //    //lambda
-        //    List<Tuple<int, string>> names = all.Select(x => new Tuple<int, string>(x.customerId, x.customerName)).ToList();
-        //    customerList.DataSource = names;
-        //    customerList.Columns[0].HeaderText = "Customer Id";
-        //    customerList.Columns[1].HeaderText = "Customer Name";
-        //    customerList.Columns[0].Width = 55;
-        //    customerList.ClearSelection();
-        //    Repo.Index = -1;
-        //}
 
         private void Display()
         {
@@ -74,8 +68,7 @@ namespace KordellGiffordSoftwareII
                 var all = Repo.customers;
                 var current = customerList.SelectedRows[0].Cells[0].Value.ToString();
 
-                var test = all.Where(x => x.customerId.ToString() == current).ToList().Select(y => y.customerName).ToList()[0];
-
+                //Lambda
                 cNameResult.Text = all.Where(x => x.customerId.ToString() == current).ToList().Select(x => x.customerName).ToList()[0];
                 cAddressResult.Text = all.Where(x => x.customerId.ToString() == current).ToList().Select(x => x.address).ToList()[0];
                 cAddress2Result.Text = all.Where(x => x.customerId.ToString() == current).ToList().Select(x => x.address2).ToList()[0];
@@ -86,7 +79,7 @@ namespace KordellGiffordSoftwareII
             }
             catch (Exception)
             {
-
+                //Intentionally empty
             }
         }
 
@@ -108,13 +101,13 @@ namespace KordellGiffordSoftwareII
                         }
                         else
                         {
-                            MessageBox.Show("The product has associated parts and cannot be deleted.");
+                            MessageBox.Show("Unable to delete customer.");
                         }
                     }
                 }
                 catch (Exception)
                 {
-                    MessageBox.Show($"Unable to delete customer.");
+                    MessageBox.Show("Unable to delete customer.");
                 }
             }
             else
