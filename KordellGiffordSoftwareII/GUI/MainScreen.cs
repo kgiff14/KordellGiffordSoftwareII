@@ -22,11 +22,6 @@ namespace KordellGiffordSoftwareII
 
         DataAccess da = new DataAccess();
 
-        private void exitBtn_Click(object sender, EventArgs e)
-        {
-            Application.Exit();
-        }
-
         #region Calendar Population
         private void MainScreen_Load(object sender, EventArgs e)
         {
@@ -80,6 +75,12 @@ namespace KordellGiffordSoftwareII
                     dr = dt.NewRow();
                     continue;
                 }
+                if (i == DateTime.DaysInMonth(dateTime.Year, dateTime.Month) - 1)
+                {
+                    dt.Rows.Add(dr);
+                    dr = dt.NewRow();
+
+                }
             }
 
             calendar.DataSource = dt;
@@ -91,11 +92,16 @@ namespace KordellGiffordSoftwareII
             {
                 foreach (DataGridViewCell cell in row.Cells)
                 {
+                    var date = Convert.ToDateTime(string.Concat(monthLabel.Text, cell.Value, ",", yearLabel.Text));
+                    if (AppointmentMarker(date))
+                    {
+                        cell.Style.BackColor = Color.Yellow;
+                    }
                     if (cell.Value.ToString() == day.ToString())
                     {
                         cell.Selected = true;
                         WeekView(count, cell.Value);
-                        var date = Convert.ToDateTime(string.Concat(monthLabel.Text, cell.Value, ",", yearLabel.Text));
+                        date = Convert.ToDateTime(string.Concat(monthLabel.Text, cell.Value, ",", yearLabel.Text));
                         AppointmentsDisplay(date);
                         return;
                     }
@@ -160,6 +166,12 @@ namespace KordellGiffordSoftwareII
                     dr = dt.NewRow();
                     continue;
                 }
+                if (i == DateTime.DaysInMonth(dateTime.Year, dateTime.Month) - 1)
+                {
+                    dt.Rows.Add(dr);
+                    dr = dt.NewRow();
+
+                }
             }
 
             calendar.DataSource = dt;
@@ -197,6 +209,12 @@ namespace KordellGiffordSoftwareII
             appointmentsTable.Columns[2].HeaderText = "Start Time";
             appointmentsTable.Columns[3].HeaderText = "End Time";
             appointmentsTable.ClearSelection();
+        }
+
+        private bool AppointmentMarker(DateTime time)
+        {
+            //lambda
+            return Repo.appointments1.Any(x => x.start.Day == time.Day);
         }
 
         private void dateTimePicker1_ValueChanged(object sender, EventArgs e)
@@ -256,11 +274,18 @@ namespace KordellGiffordSoftwareII
                     dr = dt.NewRow();
                     continue;
                 }
+                if (i == DateTime.DaysInMonth(dateTime.Year, dateTime.Month) - 1)
+                {
+                    dt.Rows.Add(dr);
+                    dr = dt.NewRow();
+
+                }
             }
 
             calendar.DataSource = dt;
             calendar.ClearSelection();
-            Repo.IndexItem = -1;
+            Repo.Index = -1;
+            Repo.GetAppointments();
             int count = 0;
             foreach (DataGridViewRow row in calendar.Rows)
             {
@@ -305,13 +330,18 @@ namespace KordellGiffordSoftwareII
             {
                 foreach (DataGridViewCell data in row.Cells)
                 {
+                    var date = Convert.ToDateTime(string.Concat(monthLabel.Text, data.Value, ",", yearLabel.Text));
+                    if (AppointmentMarker(date))
+                    {
+                        data.Style.BackColor = Color.Yellow;
+                    }
                     if (data.Value == cell)
                     {
                         data.Selected = true;
-                        return;
                     }
                 }
-            }  
+            }
+            appointmentsTable.ClearSelection();
         }
 
         private void calendar_CellContentClick(object sender, DataGridViewCellEventArgs e)
@@ -322,8 +352,36 @@ namespace KordellGiffordSoftwareII
             var date = Convert.ToDateTime(string.Concat(monthLabel.Text, cell, ",", yearLabel.Text));
             AppointmentsDisplay(date);
         }
+        private void appointmentsTable_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+            Repo.IndexItem = Convert.ToInt32(appointmentsTable.SelectedRows[0].Cells[0].Value);
+        }
+
+        private void weekCal_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+            var cell = weekCal.CurrentCell.Value;
+            foreach (DataGridViewRow row in calendar.Rows)
+            {
+                foreach (DataGridViewCell data in row.Cells)
+                {
+                    if (data.Value == cell)
+                    {
+                        data.Selected = true;
+                        var date = Convert.ToDateTime(string.Concat(monthLabel.Text, cell, ",", yearLabel.Text));
+                        AppointmentsDisplay(date);
+                        return;
+                    }
+                }
+            }
+        }
         #endregion
 
+        #region Btns
+
+        private void exitBtn_Click(object sender, EventArgs e)
+        {
+            Application.Exit();
+        }
         private void customerRecords_Click(object sender, EventArgs e)
         {
             CustomerScreen customerScreen = new CustomerScreen();
@@ -385,10 +443,7 @@ namespace KordellGiffordSoftwareII
                 MessageBox.Show("Unable to delete");
             }
         }
+        #endregion
 
-        private void appointmentsTable_CellContentClick(object sender, DataGridViewCellEventArgs e)
-        {
-            Repo.IndexItem = Convert.ToInt32(appointmentsTable.SelectedRows[0].Cells[0].Value);
-        }
     }
 }

@@ -62,7 +62,7 @@ namespace KordellGiffordSoftwareII
             var startTime = startDate.Value.Date + this.startTime.Value.TimeOfDay;
             var endTime = endDate.Value.Date + this.endTime.Value.TimeOfDay;
             //lambda
-            bool overlap = Repo.appointments1.Any(x => startTime < x.end && endTime < x.start);
+            bool overlap = Repo.appointments1.Any(x => startTime.ToUniversalTime() < x.end && endTime.ToUniversalTime() > x.start);
             TimeSpan start = new TimeSpan(17, 0, 0);
             TimeSpan end = new TimeSpan(8, 0, 0);
             if (endDate.Value.Date.DayOfWeek == DayOfWeek.Sunday || endDate.Value.Date.DayOfWeek == DayOfWeek.Saturday ||

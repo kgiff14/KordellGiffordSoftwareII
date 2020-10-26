@@ -46,6 +46,7 @@
             this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
             this.customerRecords = new System.Windows.Forms.Button();
             this.reportsBtn = new System.Windows.Forms.Button();
+            this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
             ((System.ComponentModel.ISupportInitialize)(this.appointmentsTable)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.calendar)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.weekCal)).BeginInit();
@@ -127,6 +128,7 @@
             this.calendar.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.calendar.GridColor = System.Drawing.SystemColors.Highlight;
             this.calendar.Location = new System.Drawing.Point(13, 92);
+            this.calendar.MultiSelect = false;
             this.calendar.Name = "calendar";
             this.calendar.ReadOnly = true;
             dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.TopLeft;
@@ -163,7 +165,7 @@
             // 
             this.yearLabel.AutoSize = true;
             this.yearLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.yearLabel.Location = new System.Drawing.Point(291, 66);
+            this.yearLabel.Location = new System.Drawing.Point(273, 66);
             this.yearLabel.Name = "yearLabel";
             this.yearLabel.Size = new System.Drawing.Size(66, 24);
             this.yearLabel.TabIndex = 9;
@@ -177,6 +179,7 @@
             this.weekCal.CellBorderStyle = System.Windows.Forms.DataGridViewCellBorderStyle.Raised;
             this.weekCal.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.weekCal.Location = new System.Drawing.Point(13, 614);
+            this.weekCal.MultiSelect = false;
             this.weekCal.Name = "weekCal";
             dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.TopCenter;
             dataGridViewCellStyle3.SelectionBackColor = System.Drawing.Color.Aqua;
@@ -185,6 +188,8 @@
             this.weekCal.RowTemplate.Height = 300;
             this.weekCal.Size = new System.Drawing.Size(1272, 328);
             this.weekCal.TabIndex = 11;
+            this.weekCal.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.weekCal_CellContentClick);
+            this.weekCal.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.weekCal_CellContentClick);
             // 
             // weekLabel
             // 
@@ -274,5 +279,6 @@
         private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel1;
         private System.Windows.Forms.Button customerRecords;
         private System.Windows.Forms.Button reportsBtn;
+        private System.ComponentModel.BackgroundWorker backgroundWorker1;
     }
 }
