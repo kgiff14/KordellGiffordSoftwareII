@@ -199,7 +199,7 @@ namespace KordellGiffordSoftwareII
 
         public void AppointmentsDisplay(DateTime time)
         {
-            //lambda
+            //This is a LINQ expression, Applying a lambda expression is a simpler and easy to read syntax.
             List<Tuple<int, string, DateTime, DateTime>> apt = Repo.appointments1.Where(x => x.start.Day == time.Day)
                 .Select(x => new Tuple<int, string, DateTime, DateTime>(x.appointmentId, x.title, TimeZoneInfo.ConvertTimeFromUtc((DateTime)x.start, TimeZoneInfo.Local), TimeZoneInfo.ConvertTimeFromUtc((DateTime)x.end, TimeZoneInfo.Local))).ToList();
             appointmentsTable.DataSource = apt;
@@ -213,7 +213,7 @@ namespace KordellGiffordSoftwareII
 
         private bool AppointmentMarker(DateTime time)
         {
-            //lambda
+            //This is a LINQ expression, Applying a lambda expression is a simpler and easy to read syntax.
             return Repo.appointments1.Any(x => x.start.Day == time.Day);
         }
 

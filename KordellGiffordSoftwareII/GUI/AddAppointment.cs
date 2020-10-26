@@ -39,7 +39,7 @@ namespace KordellGiffordSoftwareII
                     customers.Add(new Tuple<int,string>(Convert.ToInt32(rdr["customerId"]),rdr["customerName"].ToString()));
                 }
             }
-            //lambda
+            //This is a LINQ expression, Applying a lambda expression is a simpler and easy to read syntax.
             customerIn.DataSource = customers.Select(x => x.Item2).ToList();
             da.CloseConnection();
             List<string> types = new List<string>
@@ -61,7 +61,7 @@ namespace KordellGiffordSoftwareII
         {
             var startTime = startDate.Value.Date + this.startTime.Value.TimeOfDay;
             var endTime = endDate.Value.Date + this.endTime.Value.TimeOfDay;
-            //lambda
+            //This is a LINQ expression, Applying a lambda expression is a simpler and easy to read syntax.
             bool overlap = Repo.appointments1.Any(x => startTime.ToUniversalTime() < x.end && endTime.ToUniversalTime() > x.start);
             TimeSpan start = new TimeSpan(17, 0, 0);
             TimeSpan end = new TimeSpan(8, 0, 0);
@@ -83,7 +83,7 @@ namespace KordellGiffordSoftwareII
                 var title = titleIn.Text;
                 var location = locationIn.Text;
                 var description = descriptionIn.Text;
-                //lambda
+                //This is a LINQ expression, Applying a lambda expression is a simpler and easy to read syntax.
                 int customer = customers.Where(x => x.Item2 == customerIn.Text).Select(x => x.Item1).First();
                 var contact = contactIn.Text;
                 var url = urlIn.Text;

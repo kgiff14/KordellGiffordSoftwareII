@@ -61,13 +61,22 @@ namespace KordellGiffordSoftwareII
             var all = Repo.customers;
             var current = Repo.Index.ToString();
 
-            //Lambda
+            //Following are LINQ expressions querying the customers list from Repo.. Allows for temporary modification of 
+            //data without saving it to the database first.
+
+            //This is a LINQ expression, Applying a lambda expression is a simpler and easy to read syntax.
             nameIn.Text = all.Where(x => x.customerId.ToString() == current).ToList().Select(x => x.customerName).ToList()[0];
+            //This is a LINQ expression, Applying a lambda expression is a simpler and easy to read syntax.
             addressIn.Text = all.Where(x => x.customerId.ToString() == current).ToList().Select(x => x.address).ToList()[0];
+            //This is a LINQ expression, Applying a lambda expression is a simpler and easy to read syntax.
             address2In.Text = all.Where(x => x.customerId.ToString() == current).ToList().Select(x => x.address2).ToList()[0];
+            //This is a LINQ expression, Applying a lambda expression is a simpler and easy to read syntax.
             cityIn.Text = all.Where(x => x.customerId.ToString() == current).ToList().Select(x => x.city).ToList()[0];
+            //This is a LINQ expression, Applying a lambda expression is a simpler and easy to read syntax.
             countryIn.Text = all.Where(x => x.customerId.ToString() == current).ToList().Select(x => x.country).ToList()[0];
+            //This is a LINQ expression, Applying a lambda expression is a simpler and easy to read syntax.
             phoneIn.Text = all.Where(x => x.customerId.ToString() == current).ToList().Select(x => x.phone).ToList()[0];
+            //This is a LINQ expression, Applying a lambda expression is a simpler and easy to read syntax.
             postalIn.Text = all.Where(x => x.customerId.ToString() == current).ToList().Select(x => x.postal).ToList()[0];
             cityIn.BackColor = Color.White;
         }

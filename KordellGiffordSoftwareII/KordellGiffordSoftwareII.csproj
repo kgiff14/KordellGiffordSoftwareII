@@ -127,6 +127,8 @@
     <EmbeddedResource Include="GUI\ModifyCustomer.resx">
       <DependentUpon>ModifyCustomer.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Languages\English.resx" />
+    <EmbeddedResource Include="Languages\Japanese.resx" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>

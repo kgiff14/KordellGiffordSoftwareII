@@ -29,8 +29,9 @@
         private void InitializeComponent()
         {
             this.generateBtn = new System.Windows.Forms.Button();
-            this.comboBox1 = new System.Windows.Forms.ComboBox();
+            this.reportType = new System.Windows.Forms.ComboBox();
             this.closeBtn = new System.Windows.Forms.Button();
+            this.reports = new System.Windows.Forms.TextBox();
             this.SuspendLayout();
             // 
             // generateBtn
@@ -41,18 +42,19 @@
             this.generateBtn.TabIndex = 0;
             this.generateBtn.Text = "Generate";
             this.generateBtn.UseVisualStyleBackColor = true;
+            this.generateBtn.Click += new System.EventHandler(this.generateBtn_Click);
             // 
-            // comboBox1
+            // reportType
             // 
-            this.comboBox1.FormattingEnabled = true;
-            this.comboBox1.Location = new System.Drawing.Point(34, 35);
-            this.comboBox1.Name = "comboBox1";
-            this.comboBox1.Size = new System.Drawing.Size(225, 21);
-            this.comboBox1.TabIndex = 1;
+            this.reportType.FormattingEnabled = true;
+            this.reportType.Location = new System.Drawing.Point(34, 35);
+            this.reportType.Name = "reportType";
+            this.reportType.Size = new System.Drawing.Size(225, 21);
+            this.reportType.TabIndex = 1;
             // 
             // closeBtn
             // 
-            this.closeBtn.Location = new System.Drawing.Point(265, 75);
+            this.closeBtn.Location = new System.Drawing.Point(435, 468);
             this.closeBtn.Name = "closeBtn";
             this.closeBtn.Size = new System.Drawing.Size(75, 23);
             this.closeBtn.TabIndex = 2;
@@ -60,26 +62,38 @@
             this.closeBtn.UseVisualStyleBackColor = true;
             this.closeBtn.Click += new System.EventHandler(this.closeBtn_Click);
             // 
+            // reports
+            // 
+            this.reports.Location = new System.Drawing.Point(34, 84);
+            this.reports.Multiline = true;
+            this.reports.Name = "reports";
+            this.reports.Size = new System.Drawing.Size(476, 378);
+            this.reports.TabIndex = 3;
+            // 
             // ReportsScreen
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.GradientActiveCaption;
-            this.ClientSize = new System.Drawing.Size(361, 118);
+            this.ClientSize = new System.Drawing.Size(522, 503);
+            this.Controls.Add(this.reports);
             this.Controls.Add(this.closeBtn);
-            this.Controls.Add(this.comboBox1);
+            this.Controls.Add(this.reportType);
             this.Controls.Add(this.generateBtn);
             this.Name = "ReportsScreen";
-            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Reports";
+            this.Load += new System.EventHandler(this.ReportsScreen_Load);
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
         #endregion
 
         private System.Windows.Forms.Button generateBtn;
-        private System.Windows.Forms.ComboBox comboBox1;
+        private System.Windows.Forms.ComboBox reportType;
         private System.Windows.Forms.Button closeBtn;
+        private System.Windows.Forms.TextBox reports;
     }
 }
