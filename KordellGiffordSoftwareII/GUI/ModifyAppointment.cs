@@ -37,7 +37,7 @@ namespace KordellGiffordSoftwareII
                     customers.Add(new Tuple<int, string>(Convert.ToInt32(rdr["customerId"]), rdr["customerName"].ToString()));
                 }
             }
-            //lambda
+            //This is a LINQ expression, Applying a lambda expression is a simpler and easy to read syntax.
             customerIn.DataSource = customers.Select(x => x.Item2).ToList();
             da.CloseConnection();
             List<string> types = new List<string>
@@ -53,18 +53,32 @@ namespace KordellGiffordSoftwareII
             var all = Repo.appointments1;
             var current = Repo.IndexItem.ToString();
 
-            //Lambda
+            //Following are LINQ expressions querying the appointment list from Repo.. Allows for temporary modification of 
+            //data without saving it to the database first.
+
+            //This is a LINQ expression, Applying a lambda expression is a simpler and easy to read syntax.
             var cId = all.Where(x => x.appointmentId.ToString() == current).ToList().Select(x => x.customerId).ToList()[0].ToString();
+            //This is a LINQ expression, Applying a lambda expression is a simpler and easy to read syntax.
             titleIn.Text = all.Where(x => x.appointmentId.ToString() == current).ToList().Select(x => x.title).ToList()[0];
+            //This is a LINQ expression, Applying a lambda expression is a simpler and easy to read syntax.
             descriptionIn.Text = all.Where(x => x.appointmentId.ToString() == current).ToList().Select(x => x.description).ToList()[0];
+            //This is a LINQ expression, Applying a lambda expression is a simpler and easy to read syntax.
             typeIn.Text = all.Where(x => x.appointmentId.ToString() == current).ToList().Select(x => x.type).ToList()[0];
+            //This is a LINQ expression, Applying a lambda expression is a simpler and easy to read syntax.
             customerIn.Text = customers.Where(x => x.Item1.ToString() == cId).Select(x => x.Item2).First();
+            //This is a LINQ expression, Applying a lambda expression is a simpler and easy to read syntax.
             contactIn.Text = all.Where(x => x.appointmentId.ToString() == current).ToList().Select(x => x.contact).ToList()[0];
+            //This is a LINQ expression, Applying a lambda expression is a simpler and easy to read syntax.
             urlIn.Text = all.Where(x => x.appointmentId.ToString() == current).ToList().Select(x => x.url).ToList()[0];
+            //This is a LINQ expression, Applying a lambda expression is a simpler and easy to read syntax.
             locationIn.Text = all.Where(x => x.appointmentId.ToString() == current).ToList().Select(x => x.location).ToList()[0];
+            //This is a LINQ expression, Applying a lambda expression is a simpler and easy to read syntax.
             startDate.Text = all.Where(x => x.appointmentId.ToString() == current).ToList().Select(x => TimeZoneInfo.ConvertTimeFromUtc((DateTime)x.start, TimeZoneInfo.Local)).ToList()[0].ToString();
+            //This is a LINQ expression, Applying a lambda expression is a simpler and easy to read syntax.
             startTime.Text = all.Where(x => x.appointmentId.ToString() == current).ToList().Select(x => TimeZoneInfo.ConvertTimeFromUtc((DateTime)x.start, TimeZoneInfo.Local)).ToList()[0].ToString();
+            //This is a LINQ expression, Applying a lambda expression is a simpler and easy to read syntax.
             endDate.Text = all.Where(x => x.appointmentId.ToString() == current).ToList().Select(x => TimeZoneInfo.ConvertTimeFromUtc((DateTime)x.end, TimeZoneInfo.Local)).ToList()[0].ToString();
+            //This is a LINQ expression, Applying a lambda expression is a simpler and easy to read syntax.
             endTime.Text = all.Where(x => x.appointmentId.ToString() == current).ToList().Select(x => TimeZoneInfo.ConvertTimeFromUtc((DateTime)x.end, TimeZoneInfo.Local)).ToList()[0].ToString();
             customerIn.BackColor = Color.White;
             AllowSave();
@@ -76,7 +90,7 @@ namespace KordellGiffordSoftwareII
             {
                 var startTime = startDate.Value.Date + this.startTime.Value.TimeOfDay;
                 var endTime = endDate.Value.Date + this.endTime.Value.TimeOfDay;
-                //lambda
+                //This is a LINQ expression, Applying a lambda expression is a simpler and easy to read syntax.
                 bool overlap = Repo.appointments1.Any(x => startTime < x.end && endTime > x.start);
                 TimeSpan start = new TimeSpan(17, 0, 0);
                 TimeSpan end = new TimeSpan(8, 0, 0);
@@ -102,7 +116,7 @@ namespace KordellGiffordSoftwareII
                     var title = titleIn.Text;
                     var location = locationIn.Text;
                     var description = descriptionIn.Text;
-                    //lambda
+                    //This is a LINQ expression, Applying a lambda expression is a simpler and easy to read syntax.
                     int customer = customers.Where(x => x.Item2 == customerIn.Text).Select(x => x.Item1).First();
                     int aId = all.Where(x => x.appointmentId.ToString() == current).ToList().Select(x => x.appointmentId).ToList()[0];
 

@@ -76,16 +76,6 @@ namespace KordellGiffordSoftwareII
             }
         }
 
-        public void Insert(string query)
-        {
-            if (this.OpenConnection() == true)
-            {
-                MySqlCommand cmd = new MySqlCommand(query, connection);
-                cmd.ExecuteNonQuery();
-                this.CloseConnection();
-            }
-        }
-
         public bool Select(string query)
         {
             //Open connection

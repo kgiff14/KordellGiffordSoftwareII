@@ -50,7 +50,7 @@ namespace KordellGiffordSoftwareII
         {
             //Grab all the customers and put it into a generic list.
             var all = Repo.GetAllCustomers();
-            //lambda
+            //This is a LINQ expression, Applying a lambda expression is a simpler and easy to read syntax.
             List<Tuple<int, string>> names = all.Select(x => new Tuple<int, string>(x.customerId, x.customerName)).ToList();
             customerList.DataSource = names;
             customerList.Columns[0].HeaderText = "Customer Id";
@@ -68,13 +68,22 @@ namespace KordellGiffordSoftwareII
                 var all = Repo.customers;
                 var current = customerList.SelectedRows[0].Cells[0].Value.ToString();
 
-                //Lambda
+                //Following are LINQ expressions querying the customers list from Repo.. Allows for temporary modification of 
+                //data without saving it to the database first.
+
+                //This is a LINQ expression, Applying a lambda expression is a simpler and easy to read syntax.
                 cNameResult.Text = all.Where(x => x.customerId.ToString() == current).ToList().Select(x => x.customerName).ToList()[0];
+                //This is a LINQ expression, Applying a lambda expression is a simpler and easy to read syntax.
                 cAddressResult.Text = all.Where(x => x.customerId.ToString() == current).ToList().Select(x => x.address).ToList()[0];
+                //This is a LINQ expression, Applying a lambda expression is a simpler and easy to read syntax.
                 cAddress2Result.Text = all.Where(x => x.customerId.ToString() == current).ToList().Select(x => x.address2).ToList()[0];
+                //This is a LINQ expression, Applying a lambda expression is a simpler and easy to read syntax.
                 cCityResult.Text = all.Where(x => x.customerId.ToString() == current).ToList().Select(x => x.city).ToList()[0];
+                //This is a LINQ expression, Applying a lambda expression is a simpler and easy to read syntax.
                 cCountryResult.Text = all.Where(x => x.customerId.ToString() == current).ToList().Select(x => x.country).ToList()[0];
+                //This is a LINQ expression, Applying a lambda expression is a simpler and easy to read syntax.
                 cPhoneResult.Text = all.Where(x => x.customerId.ToString() == current).ToList().Select(x => x.phone).ToList()[0];
+                //This is a LINQ expression, Applying a lambda expression is a simpler and easy to read syntax.
                 cPostalResult.Text = all.Where(x => x.customerId.ToString() == current).ToList().Select(x => x.postal).ToList()[0];
             }
             catch (Exception)
@@ -120,7 +129,8 @@ namespace KordellGiffordSoftwareII
         {
             //Grab all the customers and put it into a generic list.
             var all = Repo.GetAllCustomers();
-            //lambda
+            //This is a LINQ expression, Applying a lambda expression is a simpler and easy to read syntax.. This also allows for 
+            //id to be stored in in-memory data via tuples and hide this from the end user via the dgv.
             List<Tuple<int, string>> names = all.Select(x => new Tuple<int, string>(x.customerId, x.customerName)).ToList();
             customerList.DataSource = names;
             customerList.Columns[0].HeaderText = "Customer Id";
