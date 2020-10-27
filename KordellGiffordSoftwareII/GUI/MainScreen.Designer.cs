@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
@@ -47,6 +48,7 @@
             this.customerRecords = new System.Windows.Forms.Button();
             this.reportsBtn = new System.Windows.Forms.Button();
             this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
+            this.timer1 = new System.Windows.Forms.Timer(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.appointmentsTable)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.calendar)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.weekCal)).BeginInit();
@@ -230,6 +232,11 @@
             this.reportsBtn.UseVisualStyleBackColor = true;
             this.reportsBtn.Click += new System.EventHandler(this.reportsBtn_Click);
             // 
+            // timer1
+            // 
+            this.timer1.Enabled = true;
+            this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
+            // 
             // MainScreen
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -280,5 +287,6 @@
         private System.Windows.Forms.Button customerRecords;
         private System.Windows.Forms.Button reportsBtn;
         private System.ComponentModel.BackgroundWorker backgroundWorker1;
+        private System.Windows.Forms.Timer timer1;
     }
 }

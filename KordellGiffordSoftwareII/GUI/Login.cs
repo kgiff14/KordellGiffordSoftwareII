@@ -11,6 +11,8 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.IO;
 using System.Drawing.Text;
+using System.Globalization;
+using System.Resources;
 
 namespace KordellGiffordSoftwareII
 {
@@ -31,6 +33,7 @@ namespace KordellGiffordSoftwareII
 
         private void loginBtn_Click(object sender, EventArgs e)
         {
+            ResourceManager rm = new ResourceManager("KordellGiffordSoftwareII.Languages.Messages", typeof(Login).Assembly);
             string username = usernameText.Text;
             string password = passwordText.Text;
 
@@ -40,7 +43,7 @@ namespace KordellGiffordSoftwareII
                 {
                     this.Hide();
                     da.OpenConnection();
-                    MySqlCommand cmd = new MySqlCommand("SELECT userId, userName FROM user;", da.connectionS());
+                    MySqlCommand cmd = new MySqlCommand($"SELECT userId, userName FROM user WHERE userName = '{username}' AND password = '{password}';", da.connectionS());
                     using (MySqlDataReader rdr = cmd.ExecuteReader())
                     {
                         while (rdr.Read())
@@ -52,17 +55,23 @@ namespace KordellGiffordSoftwareII
                     LogUserActivity();
                     MainScreen mainScreen = new MainScreen();
                     mainScreen.Show();
-                    MessageBox.Show($"Welcome back {username}!");
+                    CultureInfo ci = new CultureInfo(CultureInfo.CurrentCulture.TwoLetterISOLanguageName);
+                    MessageBox.Show(rm.GetString("welcome", ci) + $"{username}!");
+                    ci.ClearCachedData();
                 }
                 else
                 {
-                    MessageBox.Show("Password does not match the Username.");
+                    CultureInfo ci = new CultureInfo(CultureInfo.CurrentCulture.TwoLetterISOLanguageName);
+                    MessageBox.Show(rm.GetString("no match", ci));
+                    ci.ClearCachedData();
 
                 }
             }
             else
             {
-                MessageBox.Show("Username does not exist.");
+                CultureInfo ci = new CultureInfo(CultureInfo.CurrentCulture.TwoLetterISOLanguageName);
+                MessageBox.Show(rm.GetString("no username", ci));
+                ci.ClearCachedData();
             }
         }
 
@@ -93,6 +102,20 @@ namespace KordellGiffordSoftwareII
             {
                 MessageBox.Show(ex.ToString());
             }
+        }
+
+        private void timer1_Tick(object sender, EventArgs e)
+        {
+            CultureInfo ci = new CultureInfo(CultureInfo.CurrentCulture.TwoLetterISOLanguageName);
+
+            ResourceManager rm = new ResourceManager("KordellGiffordSoftwareII.Languages.Messages", typeof(Login).Assembly);
+            usernameLabel.Text = rm.GetString("username", ci);
+            passwordLabel.Text = rm.GetString("password", ci);
+            this.Text = rm.GetString("login", ci);
+            loginBtn.Text = rm.GetString("login", ci);
+            cancelBtn.Text = rm.GetString("cancel", ci);
+            mainLabel.Text = rm.GetString("alatries", ci);
+            ci.ClearCachedData();
         }
     }
 }

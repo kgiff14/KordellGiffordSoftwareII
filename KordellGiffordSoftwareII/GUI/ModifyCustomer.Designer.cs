@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.phoneIn = new System.Windows.Forms.TextBox();
             this.postalIn = new System.Windows.Forms.TextBox();
             this.address2In = new System.Windows.Forms.TextBox();
@@ -44,6 +45,7 @@
             this.cName = new System.Windows.Forms.Label();
             this.cityIn = new System.Windows.Forms.ComboBox();
             this.countryIn = new System.Windows.Forms.ComboBox();
+            this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.SuspendLayout();
             // 
             // phoneIn
@@ -194,6 +196,11 @@
             this.countryIn.TabIndex = 43;
             this.countryIn.SelectedIndexChanged += new System.EventHandler(this.countryIn_SelectedIndexChanged);
             // 
+            // timer1
+            // 
+            this.timer1.Enabled = true;
+            this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
+            // 
             // ModifyCustomer
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -243,5 +250,6 @@
         private System.Windows.Forms.Label cName;
         private System.Windows.Forms.ComboBox cityIn;
         private System.Windows.Forms.ComboBox countryIn;
+        private System.Windows.Forms.Timer timer1;
     }
 }

@@ -1,10 +1,12 @@
-﻿using System;
+﻿using MySql.Data.MySqlClient;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Globalization;
 using System.Linq;
+using System.Resources;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -48,13 +50,19 @@ namespace KordellGiffordSoftwareII
                 "Each consultant schedule",
                 "Meeting types by customer"
             };
+            reportType.DataSource = reportTypes;
         }
 
         private void TextFillByMonth(DataTable dt)
         {
             reports.Text = "Number of each type, by month\r\n\r\n";
-            string[] months;
-            months = CultureInfo.CurrentCulture.DateTimeFormat.MonthNames;
+            List<string> months = new List<string>();
+            months = CultureInfo.CurrentCulture.DateTimeFormat.MonthNames.ToList();
+            if (months.Count > 12)
+            {
+                months.RemoveAt(12);
+            }
+            months.ToArray();
 
             foreach (string month in months)
             {
@@ -65,7 +73,7 @@ namespace KordellGiffordSoftwareII
                 int other = 0;
                 foreach (DataRow row in dt.Rows)
                 {
-                    if (month == months[((DateTime)row["start"]).Month - 4])
+                    if (month == months[((DateTime)row["start"]).Month - 1])
                     {
                         if (row["type"].ToString() == "Consulting")
                         {
@@ -86,7 +94,7 @@ namespace KordellGiffordSoftwareII
                     }
                 }
                 reports.Text = reports.Text +
-                    "\tConsulting\t\t" + consult + "\r\n" +
+                    "\tConsulting\t" + consult + "\r\n" +
                     "\tBrief\t\t" + brief + "\r\n" +
                     "\tReview\t\t" + review + "\r\n" +
                     "\tOther\t\t" + other + "\r\n";
@@ -96,10 +104,9 @@ namespace KordellGiffordSoftwareII
 
         private void TextFillByConsultant(DataTable dt)
         {
+            DataAccess da = new DataAccess();
             reports.Text = "Schedule by Consultant\r\n\r\n";
-            string[] consultants;
-            //This is a LINQ to Object expression, Applying a lambda expression is a simpler and easy to read syntax.
-            consultants = dt.Select(x => x.userName).ToList();
+            string[] consultants = GetUsers();
 
             foreach (string name in consultants)
             {
@@ -108,12 +115,12 @@ namespace KordellGiffordSoftwareII
                 string endDate = "";
                 foreach (DataRow row in dt.Rows)
                 {
-                    if (name == consultants[row["userName"].ToString()])
+                    if (name == row["userName"].ToString())
                     {
                         startDate = row["start"].ToString();
                         endDate = row["end"].ToString();
                         reports.Text = reports.Text +
-                            "\tStart:\t" + startDate + "\tEnd:\t" + endDate;
+                            "\tStart:\t" + startDate + "\tEnd:\t" + endDate +"\r\n\r";
                         reports.Select(0, 0);
                     }
                 }
@@ -123,9 +130,7 @@ namespace KordellGiffordSoftwareII
         private void TextFillByCustomer(DataTable dt)
         {
             reports.Text = "Number of each type, by customer\r\n\r\n";
-            string[] customer;
-            //This is a LINQ to Object expression, Applying a lambda expression is a simpler and easy to read syntax.
-            customer = dt.Select(x => x.customerName).ToList();
+            var customer = GetCustomers();
 
             foreach (string name in customer)
             {
@@ -136,7 +141,7 @@ namespace KordellGiffordSoftwareII
                 int other = 0;
                 foreach (DataRow row in dt.Rows)
                 {
-                    if (name == customer[row["customerName"].ToString()])
+                    if (name == row["customerName"].ToString())
                     {
                         if (row["type"].ToString() == "Consulting")
                         {
@@ -157,12 +162,60 @@ namespace KordellGiffordSoftwareII
                     }
                 }
                 reports.Text = reports.Text +
-                    "\tConsulting\t\t" + consult + "\r\n" +
+                    "\tConsulting\t" + consult + "\r\n" +
                     "\tBrief\t\t" + brief + "\r\n" +
                     "\tReview\t\t" + review + "\r\n" +
                     "\tOther\t\t" + other + "\r\n";
                 reports.Select(0, 0);
             }
+        }
+
+        private string[] GetUsers()
+        {
+            DataAccess da = new DataAccess();
+            List<string> users = new List<string>();
+            da.OpenConnection();
+            var command = new MySqlCommand("GetUsers", da.connectionS());
+            command.CommandType = CommandType.StoredProcedure;
+            using (MySqlDataReader rdr = command.ExecuteReader())
+            {
+                while (rdr.Read())
+                {
+                    users.Add(rdr[0].ToString());
+                }
+            }
+            da.CloseConnection();
+            string[] names = users.ToArray();
+            return names;
+        }
+
+        private List<string> GetCustomers()
+        {
+            DataAccess da = new DataAccess();
+            List<string> customers = new List<string>();
+            da.OpenConnection();
+            var command = new MySqlCommand("GetCustomer", da.connectionS());
+            command.CommandType = CommandType.StoredProcedure;
+            using (MySqlDataReader rdr = command.ExecuteReader())
+            {
+                while (rdr.Read())
+                {
+                    customers.Add(rdr[0].ToString());
+                }
+            }
+            da.CloseConnection();
+            return customers;
+        }
+
+        private void timer1_Tick(object sender, EventArgs e)
+        {
+            CultureInfo ci = new CultureInfo(CultureInfo.CurrentCulture.TwoLetterISOLanguageName);
+
+            ResourceManager rm = new ResourceManager("KordellGiffordSoftwareII.Languages.Messages", typeof(Login).Assembly);
+            generateBtn.Text = rm.GetString("generate", ci);
+            closeBtn.Text = rm.GetString("close", ci);
+            this.Text = rm.GetString("login", ci);
+            ci.ClearCachedData();
         }
     }
 }

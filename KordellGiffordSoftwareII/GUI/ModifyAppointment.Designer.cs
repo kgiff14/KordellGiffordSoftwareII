@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.saveBtn = new System.Windows.Forms.Button();
             this.cancelBtn = new System.Windows.Forms.Button();
             this.endDate = new System.Windows.Forms.DateTimePicker();
@@ -50,6 +51,7 @@
             this.customerIn = new System.Windows.Forms.ComboBox();
             this.contactIn = new System.Windows.Forms.TextBox();
             this.contactLabel = new System.Windows.Forms.Label();
+            this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.SuspendLayout();
             // 
             // saveBtn
@@ -263,6 +265,11 @@
             this.contactLabel.TabIndex = 44;
             this.contactLabel.Text = "Contact:";
             // 
+            // timer1
+            // 
+            this.timer1.Enabled = true;
+            this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
+            // 
             // ModifyAppointment
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -324,5 +331,6 @@
         private System.Windows.Forms.ComboBox customerIn;
         private System.Windows.Forms.TextBox contactIn;
         private System.Windows.Forms.Label contactLabel;
+        private System.Windows.Forms.Timer timer1;
     }
 }

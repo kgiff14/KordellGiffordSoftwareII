@@ -28,10 +28,12 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.generateBtn = new System.Windows.Forms.Button();
             this.reportType = new System.Windows.Forms.ComboBox();
             this.closeBtn = new System.Windows.Forms.Button();
             this.reports = new System.Windows.Forms.TextBox();
+            this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.SuspendLayout();
             // 
             // generateBtn
@@ -67,8 +69,14 @@
             this.reports.Location = new System.Drawing.Point(34, 84);
             this.reports.Multiline = true;
             this.reports.Name = "reports";
+            this.reports.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
             this.reports.Size = new System.Drawing.Size(476, 378);
             this.reports.TabIndex = 3;
+            // 
+            // timer1
+            // 
+            this.timer1.Enabled = true;
+            this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
             // 
             // ReportsScreen
             // 
@@ -95,5 +103,6 @@
         private System.Windows.Forms.ComboBox reportType;
         private System.Windows.Forms.Button closeBtn;
         private System.Windows.Forms.TextBox reports;
+        private System.Windows.Forms.Timer timer1;
     }
 }

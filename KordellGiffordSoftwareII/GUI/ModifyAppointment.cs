@@ -5,7 +5,9 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.Globalization;
 using System.Linq;
+using System.Resources;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -88,6 +90,7 @@ namespace KordellGiffordSoftwareII
         {
             try
             {
+                ResourceManager rm = new ResourceManager("KordellGiffordSoftwareII.Languages.Messages", typeof(Login).Assembly);
                 var startTime = startDate.Value.Date + this.startTime.Value.TimeOfDay;
                 var endTime = endDate.Value.Date + this.endTime.Value.TimeOfDay;
                 //This is a LINQ expression, Applying a lambda expression is a simpler and easy to read syntax.
@@ -100,11 +103,15 @@ namespace KordellGiffordSoftwareII
                     this.endTime.Value.TimeOfDay < end && this.endTime.Value.TimeOfDay > start ||
                     this.startTime.Value.TimeOfDay > this.endTime.Value.TimeOfDay)
                 {
-                    MessageBox.Show("The appointment does not fall into Business hours. (M-F 8-5)");
+                    CultureInfo ci = new CultureInfo(CultureInfo.CurrentCulture.TwoLetterISOLanguageName);
+                    MessageBox.Show(rm.GetString("bad time", ci));
+                    ci.ClearCachedData();
                 }
                 else if (overlap)
                 {
-                    MessageBox.Show("An appointment is already scheduled for this time.");
+                    CultureInfo ci = new CultureInfo(CultureInfo.CurrentCulture.TwoLetterISOLanguageName);
+                    MessageBox.Show(rm.GetString("overlap", ci));
+                    ci.ClearCachedData();
                 }
                 else
                 {
@@ -130,18 +137,25 @@ namespace KordellGiffordSoftwareII
                     {
                         this.Close();
                         MainScreen mainScreen = new MainScreen();
-                        MessageBox.Show("Appointment has been updated.");
+                        CultureInfo ci = new CultureInfo(CultureInfo.CurrentCulture.TwoLetterISOLanguageName);
+                        MessageBox.Show(rm.GetString("apt update", ci));
+                        ci.ClearCachedData();
                         mainScreen.Display();
                     }
                     else
                     {
-                        MessageBox.Show("Unable to update appointment.");
+                        CultureInfo ci = new CultureInfo(CultureInfo.CurrentCulture.TwoLetterISOLanguageName);
+                        MessageBox.Show(rm.GetString("apt not updated", ci));
+                        ci.ClearCachedData();
                     }
                 }
             }
             catch (Exception)
             {
-                MessageBox.Show("Unable to update appointment.");
+                ResourceManager rm = new ResourceManager("KordellGiffordSoftwareII.Languages.Messages", typeof(Login).Assembly);
+                CultureInfo ci = new CultureInfo(CultureInfo.CurrentCulture.TwoLetterISOLanguageName);
+                MessageBox.Show(rm.GetString("apt not updated", ci));
+                ci.ClearCachedData();
             }
         }
 
@@ -304,6 +318,26 @@ namespace KordellGiffordSoftwareII
                 typeIn.BackColor = Color.White;
             }
             AllowSave();
+        }
+
+        private void timer1_Tick(object sender, EventArgs e)
+        {
+            CultureInfo ci = new CultureInfo(CultureInfo.CurrentCulture.TwoLetterISOLanguageName);
+
+            ResourceManager rm = new ResourceManager("KordellGiffordSoftwareII.Languages.Messages", typeof(Login).Assembly);
+            titleLabel.Text = rm.GetString("title", ci);
+            startLabel.Text = rm.GetString("start", ci);
+            this.Text = rm.GetString("add apoint", ci);
+            endLabel.Text = rm.GetString("end", ci);
+            cancelBtn.Text = rm.GetString("cancel", ci);
+            saveBtn.Text = rm.GetString("save", ci);
+            locationLabel.Text = rm.GetString("location", ci);
+            urlLabel.Text = rm.GetString("url", ci);
+            typeLabel.Text = rm.GetString("type", ci);
+            customerLabel.Text = rm.GetString("customers", ci);
+            contactLabel.Text = rm.GetString("contact", ci);
+            descriptionLabel.Text = rm.GetString("description", ci);
+            ci.ClearCachedData();
         }
     }
 }

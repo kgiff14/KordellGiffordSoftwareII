@@ -117,94 +117,208 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="add" xml:space="preserve">
+    <value>作成</value>
+  </data>
   <data name="add apoint" xml:space="preserve">
-    <value>Add Apt.</value>
+    <value>作成</value>
   </data>
   <data name="address" xml:space="preserve">
-    <value>Address</value>
+    <value>住所</value>
   </data>
   <data name="address2" xml:space="preserve">
-    <value>Address2</value>
+    <value>住所2</value>
+  </data>
+  <data name="alatries" xml:space="preserve">
+    <value>アラトレイスの慰め</value>
   </data>
   <data name="appointment" xml:space="preserve">
-    <value>Appointments</value>
+    <value>予定</value>
+  </data>
+  <data name="apt created" xml:space="preserve">
+    <value>予定が作成されました。</value>
+  </data>
+  <data name="apt deleted" xml:space="preserve">
+    <value>予定は削除されました。</value>
+  </data>
+  <data name="apt not created" xml:space="preserve">
+    <value>予定を作成できません。</value>
+  </data>
+  <data name="apt not deleted" xml:space="preserve">
+    <value>予定を削除できません。</value>
+  </data>
+  <data name="apt not updated" xml:space="preserve">
+    <value>予定を更新できません。</value>
+  </data>
+  <data name="apt title" xml:space="preserve">
+    <value>予定のタイトル</value>
+  </data>
+  <data name="apt update" xml:space="preserve">
+    <value>予定が更新されました。</value>
+  </data>
+  <data name="bad time" xml:space="preserve">
+    <value>予定は営業時間には含まれません。 （M-F 8-5）</value>
+  </data>
+  <data name="by month" xml:space="preserve">
+    <value>月別の会議の種類</value>
   </data>
   <data name="cancel" xml:space="preserve">
-    <value>Cancel</value>
+    <value>キャンセル</value>
   </data>
   <data name="city" xml:space="preserve">
-    <value>City</value>
+    <value>市</value>
   </data>
   <data name="close" xml:space="preserve">
-    <value>Close</value>
+    <value>閉じる</value>
+  </data>
+  <data name="confirm" xml:space="preserve">
+    <value>確認</value>
+  </data>
+  <data name="confirm delete" xml:space="preserve">
+    <value>消去してもよろしいですか？</value>
   </data>
   <data name="contact" xml:space="preserve">
-    <value>contact</value>
+    <value>連絡先</value>
   </data>
   <data name="country" xml:space="preserve">
-    <value>Country</value>
+    <value>国</value>
+  </data>
+  <data name="cust add" xml:space="preserve">
+    <value>顧客が追加されました。</value>
+  </data>
+  <data name="cust delete" xml:space="preserve">
+    <value>削除されました。</value>
+  </data>
+  <data name="cust name" xml:space="preserve">
+    <value>顧客名</value>
+  </data>
+  <data name="cust not added" xml:space="preserve">
+    <value>新しい顧客を追加できません。</value>
+  </data>
+  <data name="cust not updated" xml:space="preserve">
+    <value>顧客を更新できません。</value>
+  </data>
+  <data name="cust select" xml:space="preserve">
+    <value>顧客を選択する必要があります。</value>
+  </data>
+  <data name="cust update" xml:space="preserve">
+    <value>お客様が更新されました。</value>
+  </data>
+  <data name="custId" xml:space="preserve">
+    <value>顧客ID</value>
+  </data>
+  <data name="customer not deleted" xml:space="preserve">
+    <value>顧客を削除できません。</value>
   </data>
   <data name="customers" xml:space="preserve">
-    <value>Customers</value>
+    <value>お客様</value>
+  </data>
+  <data name="delete" xml:space="preserve">
+    <value>削除</value>
   </data>
   <data name="delete appoint" xml:space="preserve">
-    <value>Delete Apt.</value>
+    <value>削除</value>
   </data>
   <data name="description" xml:space="preserve">
-    <value>Description</value>
+    <value>説明</value>
   </data>
   <data name="end" xml:space="preserve">
-    <value>End</value>
+    <value>終わり</value>
+  </data>
+  <data name="end time" xml:space="preserve">
+    <value>終了時間</value>
+  </data>
+  <data name="friday" xml:space="preserve">
+    <value>金</value>
   </data>
   <data name="generate" xml:space="preserve">
-    <value>Generate</value>
+    <value>生む</value>
   </data>
   <data name="location" xml:space="preserve">
-    <value>Location</value>
+    <value>場所</value>
   </data>
   <data name="login" xml:space="preserve">
-    <value>Login</value>
+    <value>ログイン</value>
+  </data>
+  <data name="main screen" xml:space="preserve">
+    <value>メインスクリーン</value>
+  </data>
+  <data name="modify" xml:space="preserve">
+    <value>変更</value>
+  </data>
+  <data name="monday" xml:space="preserve">
+    <value>月</value>
   </data>
   <data name="name" xml:space="preserve">
-    <value>Name</value>
+    <value>名前</value>
+  </data>
+  <data name="no apt" xml:space="preserve">
+    <value>最初に予定を選択する必要があります。</value>
+  </data>
+  <data name="no match" xml:space="preserve">
+    <value>パスワードがユーザー名と一致しません。</value>
+  </data>
+  <data name="no username" xml:space="preserve">
+    <value>ユーザー名は存在しません。</value>
+  </data>
+  <data name="overlap" xml:space="preserve">
+    <value>今回はすでに予約が入っています。</value>
   </data>
   <data name="password" xml:space="preserve">
-    <value>Password</value>
+    <value>パスワード</value>
   </data>
   <data name="phone" xml:space="preserve">
-    <value>Phone</value>
+    <value>電話</value>
   </data>
   <data name="postal" xml:space="preserve">
-    <value>Postal</value>
+    <value>郵便</value>
   </data>
   <data name="reports" xml:space="preserve">
-    <value>Reports</value>
+    <value>レポート</value>
+  </data>
+  <data name="saturday" xml:space="preserve">
+    <value>土</value>
   </data>
   <data name="save" xml:space="preserve">
-    <value>Save</value>
+    <value>保存</value>
   </data>
   <data name="start" xml:space="preserve">
-    <value>Start</value>
+    <value>開始</value>
   </data>
-  <data name="String1" xml:space="preserve">
-    <value />
+  <data name="start time" xml:space="preserve">
+    <value>始まる時間</value>
+  </data>
+  <data name="sunday" xml:space="preserve">
+    <value>日</value>
+  </data>
+  <data name="thursday" xml:space="preserve">
+    <value>木</value>
   </data>
   <data name="title" xml:space="preserve">
-    <value>Title</value>
+    <value>題名</value>
+  </data>
+  <data name="tuesday" xml:space="preserve">
+    <value>火</value>
   </data>
   <data name="type" xml:space="preserve">
-    <value>Type</value>
+    <value>タイプ</value>
   </data>
   <data name="update appoint" xml:space="preserve">
-    <value>Update Apt.</value>
+    <value>更新</value>
   </data>
   <data name="url" xml:space="preserve">
     <value>Url</value>
   </data>
   <data name="username" xml:space="preserve">
-    <value>Username</value>
+    <value>ユーザー名</value>
+  </data>
+  <data name="wednesday" xml:space="preserve">
+    <value>水</value>
   </data>
   <data name="week view" xml:space="preserve">
-    <value>Week View</value>
+    <value>週ビュー</value>
+  </data>
+  <data name="welcome" xml:space="preserve">
+    <value>お帰りなさい</value>
   </data>
 </root>

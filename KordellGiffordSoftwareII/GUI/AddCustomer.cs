@@ -5,7 +5,9 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.Globalization;
 using System.Linq;
+using System.Resources;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
@@ -20,7 +22,7 @@ namespace KordellGiffordSoftwareII
             InitializeComponent();
             AllowSave();
         }
-
+        ResourceManager rm = new ResourceManager("KordellGiffordSoftwareII.Languages.Messages", typeof(Login).Assembly);
         private void canceBtn_Click(object sender, EventArgs e)
         {
             this.Close();
@@ -64,14 +66,19 @@ namespace KordellGiffordSoftwareII
 
             if (Repo.AddCustomer(add))
             {
-                MessageBox.Show("Customer has been added.");
+                CultureInfo ci = new CultureInfo(CultureInfo.CurrentCulture.TwoLetterISOLanguageName);
+                MessageBox.Show(rm.GetString("cust add", ci));
+                ci.ClearCachedData();
                 this.Close();
                 CustomerScreen customerScreen = new CustomerScreen();
                 customerScreen.Show();
+                ci.ClearCachedData();
             }
             else
             {
-                MessageBox.Show("Unable to add new customer");
+                CultureInfo ci = new CultureInfo(CultureInfo.CurrentCulture.TwoLetterISOLanguageName);
+                MessageBox.Show(rm.GetString("cust not added", ci));
+                ci.ClearCachedData();
             }
         }
 
@@ -214,6 +221,24 @@ namespace KordellGiffordSoftwareII
             {
                 countryIn.BackColor = Color.Salmon;
             }
+        }
+
+        private void timer1_Tick(object sender, EventArgs e)
+        {
+            CultureInfo ci = new CultureInfo(CultureInfo.CurrentCulture.TwoLetterISOLanguageName);
+
+            ResourceManager rm = new ResourceManager("KordellGiffordSoftwareII.Languages.Messages", typeof(Login).Assembly);
+            cName.Text = rm.GetString("title", ci);
+            cAddress.Text = rm.GetString("address", ci);
+            this.Text = rm.GetString("add", ci);
+            cAddress2.Text = rm.GetString("address2", ci);
+            cCity.Text = rm.GetString("city", ci);
+            saveBtn.Text = rm.GetString("save", ci);
+            cPostal.Text = rm.GetString("postal", ci);
+            cCountry.Text = rm.GetString("country", ci);
+            cPhone.Text = rm.GetString("phone", ci);
+            canceBtn.Text = rm.GetString("cancel", ci);
+            ci.ClearCachedData();
         }
     }
 }
