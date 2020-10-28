@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Security.Policy;
 using System.Text;
 using System.Threading.Tasks;
@@ -12,9 +13,10 @@ namespace KordellGiffordSoftwareII.Controller
     {
         public static List<Customers> customers = new List<Customers>();
         public static List<Appointments> appointments1 = new List<Appointments>();
+        public static List<int> alerted = new List<int>();
         public static int Index;
         public static int IndexItem;
-        public static Tuple<int, string> uId { get; set; }
+        public static Tuple<int, string, int> uId { get; set; }
 
         #region Customer Manipulation
         public static List<Customers> GetAllCustomers()
@@ -109,6 +111,7 @@ namespace KordellGiffordSoftwareII.Controller
         }
         #endregion
 
+        #region Appointment Manipulation
         public static bool AddAppointment(Appointments appointments)
         {
             try
@@ -157,7 +160,7 @@ namespace KordellGiffordSoftwareII.Controller
                     {
                         appointments1.Add(new Appointments(Convert.ToInt32(rdr["appointmentId"]), Convert.ToInt32(rdr["customerId"]), Convert.ToInt32(rdr["userId"]),
                             rdr["title"].ToString(), rdr["description"].ToString(), rdr["location"].ToString(), rdr["contact"].ToString(),
-                            rdr["type"].ToString(), rdr["url"].ToString(), Convert.ToDateTime(rdr["start"]), Convert.ToDateTime(rdr["end"])));
+                            rdr["type"].ToString(), rdr["url"].ToString(), TimeZoneInfo.ConvertTimeFromUtc(Convert.ToDateTime(rdr["start"]), TimeZoneInfo.Local), TimeZoneInfo.ConvertTimeFromUtc(Convert.ToDateTime(rdr["end"]), TimeZoneInfo.Local)));
                     }
                 }
                 da.CloseConnection();
@@ -217,6 +220,27 @@ namespace KordellGiffordSoftwareII.Controller
             catch (Exception e)
             {
                 return false;
+            }
+        }
+        #endregion
+
+        public static List<Tuple<int, string>> Alerts()
+        {
+            try
+            {
+                //This is a LINQ expression, Applying a lambda expression is a simpler and easy to read syntax.
+                if (Repo.appointments1.Any(x => x.alert == 0))
+                {
+                    //This is a LINQ expression, Applying a lambda expression is a simpler and easy to read syntax.
+                    List<Tuple<int, string>> alerts = Repo.appointments1.Where(x => DateTime.Now >= x.start.AddMinutes(-15) && DateTime.Now < x.start && x.alert == 0 && !Repo.alerted.Contains(x.appointmentId))
+                        .Select(x => new Tuple<int, string>(x.appointmentId, x.title)).ToList();
+                    return alerts;
+                }
+                return null;
+            }
+            catch
+            {
+                return null;
             }
         }
     }

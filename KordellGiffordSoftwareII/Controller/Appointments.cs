@@ -19,9 +19,10 @@ namespace KordellGiffordSoftwareII
         public string url { get; set; }
         public DateTime start { get; set; }
         public DateTime end { get; set; }
+        public int alert { get; set; }
 
 
-        public Appointments(int aId, int cId, int uId, string title, string description, string location, string contact, string type, string url, DateTime start, DateTime end)
+        public Appointments(int aId, int cId, int uId, string title, string description, string location, string contact, string type, string url, DateTime start, DateTime end, int alert = 0)
         {
             appointmentId = aId;
             customerId = cId;

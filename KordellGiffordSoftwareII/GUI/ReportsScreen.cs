@@ -1,4 +1,5 @@
-﻿using MySql.Data.MySqlClient;
+﻿using KordellGiffordSoftwareII.Controller;
+using MySql.Data.MySqlClient;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -19,43 +20,49 @@ namespace KordellGiffordSoftwareII
         {
             InitializeComponent();
         }
+        ResourceManager rm = new ResourceManager("KordellGiffordSoftwareII.Languages.Messages", typeof(Login).Assembly);
 
         private void closeBtn_Click(object sender, EventArgs e)
         {
             this.Close();
         }
-
+        #region Reports
         private void generateBtn_Click(object sender, EventArgs e)
         {
+            CultureInfo ci = new CultureInfo(CultureInfo.CurrentCulture.TwoLetterISOLanguageName);
             Reports r = new Reports();
-            switch (reportType.Text)
+            if (reportType.Text == rm.GetString("by month", ci))
             {
-                case ("Meeting types by month"):
-                    TextFillByMonth(r.ReportMonthByType());
-                    break;
-                case ("Each consultant schedule"):
-                    TextFillByConsultant(r.ReportConsultantSchedule());
-                    break;
-                case ("Meeting types by customer"):
-                    TextFillByCustomer(r.ReportCustomerByType());
-                    break;
+                TextFillByMonth(r.ReportMonthByType());
             }
+            else if (reportType.Text == rm.GetString("by user", ci))
+            {
+                TextFillByConsultant(r.ReportConsultantSchedule());
+            }
+            else if (reportType.Text == rm.GetString("by cust", ci))
+            {
+                TextFillByCustomer(r.ReportCustomerByType());
+            }
+            ci.ClearCachedData();
         }
 
         private void ReportsScreen_Load(object sender, EventArgs e)
         {
+            CultureInfo ci = new CultureInfo(CultureInfo.CurrentCulture.TwoLetterISOLanguageName);
             List<string> reportTypes = new List<string>()
             {
-                "Meeting types by month",
-                "Each consultant schedule",
-                "Meeting types by customer"
+                rm.GetString("by month", ci),
+                rm.GetString("by user", ci),
+                rm.GetString("by cust", ci)
             };
             reportType.DataSource = reportTypes;
+            ci.ClearCachedData();
         }
 
         private void TextFillByMonth(DataTable dt)
         {
-            reports.Text = "Number of each type, by month\r\n\r\n";
+            CultureInfo ci = new CultureInfo(CultureInfo.CurrentCulture.TwoLetterISOLanguageName);
+            reports.Text = rm.GetString("by month", ci) + "\r\n\r\n";
             List<string> months = new List<string>();
             months = CultureInfo.CurrentCulture.DateTimeFormat.MonthNames.ToList();
             if (months.Count > 12)
@@ -100,12 +107,14 @@ namespace KordellGiffordSoftwareII
                     "\tOther\t\t" + other + "\r\n";
                 reports.Select(0, 0);
             }
+            ci.ClearCachedData();
         }
 
         private void TextFillByConsultant(DataTable dt)
         {
+            CultureInfo ci = new CultureInfo(CultureInfo.CurrentCulture.TwoLetterISOLanguageName);
             DataAccess da = new DataAccess();
-            reports.Text = "Schedule by Consultant\r\n\r\n";
+            reports.Text = rm.GetString("schedule", ci) + "\r\n\r\n";
             string[] consultants = GetUsers();
 
             foreach (string name in consultants)
@@ -125,11 +134,13 @@ namespace KordellGiffordSoftwareII
                     }
                 }
             }
+            ci.ClearCachedData();
         }
 
         private void TextFillByCustomer(DataTable dt)
         {
-            reports.Text = "Number of each type, by customer\r\n\r\n";
+            CultureInfo ci = new CultureInfo(CultureInfo.CurrentCulture.TwoLetterISOLanguageName);
+            reports.Text = rm.GetString("by cust", ci) + "\r\n\r\n";
             var customer = GetCustomers();
 
             foreach (string name in customer)
@@ -168,6 +179,7 @@ namespace KordellGiffordSoftwareII
                     "\tOther\t\t" + other + "\r\n";
                 reports.Select(0, 0);
             }
+            ci.ClearCachedData();
         }
 
         private string[] GetUsers()
@@ -206,16 +218,44 @@ namespace KordellGiffordSoftwareII
             da.CloseConnection();
             return customers;
         }
+        #endregion
 
+        #region Timers
         private void timer1_Tick(object sender, EventArgs e)
         {
-            CultureInfo ci = new CultureInfo(CultureInfo.CurrentCulture.TwoLetterISOLanguageName);
+            try
+            {
+                CultureInfo ci = new CultureInfo(CultureInfo.CurrentCulture.TwoLetterISOLanguageName);
 
-            ResourceManager rm = new ResourceManager("KordellGiffordSoftwareII.Languages.Messages", typeof(Login).Assembly);
-            generateBtn.Text = rm.GetString("generate", ci);
-            closeBtn.Text = rm.GetString("close", ci);
-            this.Text = rm.GetString("login", ci);
-            ci.ClearCachedData();
+                generateBtn.Text = rm.GetString("generate", ci);
+                closeBtn.Text = rm.GetString("close", ci);
+                this.Text = rm.GetString("reports", ci);
+                ci.ClearCachedData();
+                Alert();
+            }
+            catch
+            {
+                //intentionally open to allow display to reset without throwing errors
+            }
         }
+
+        private void Alert()
+        {
+            var alerts = Repo.Alerts();
+            if (alerts != null)
+            {
+                foreach (var item in alerts)
+                {
+                    //This is a LINQ expression, Applying a lambda expression is a simpler and easy to read syntax.
+                    Repo.appointments1.Where(x => x.appointmentId == item.Item1).ToList().ForEach(x => x.alert = 1);
+                    Repo.alerted.Add(item.Item1);
+                    var name = item.Item2;
+                    CultureInfo ci = new CultureInfo(CultureInfo.CurrentCulture.TwoLetterISOLanguageName);
+                    DialogResult dialogResult = MessageBox.Show($"{name}" + rm.GetString("15", ci));
+                    ci.ClearCachedData();
+                }
+            }
+        }
+        #endregion
     }
 }

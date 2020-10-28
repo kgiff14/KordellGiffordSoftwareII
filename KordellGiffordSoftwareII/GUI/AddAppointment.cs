@@ -21,13 +21,7 @@ namespace KordellGiffordSoftwareII
             InitializeComponent();
             AllowSave();
         }
-
-        private void cancelBtn_Click(object sender, EventArgs e)
-        {
-            this.Close();
-        }
         public List<Tuple<int, string>> customers = new List<Tuple<int, string>>();
-
         private void AddAppointment_Load(object sender, EventArgs e)
         {
             DataAccess da = new DataAccess();
@@ -53,24 +47,10 @@ namespace KordellGiffordSoftwareII
             typeIn.DataSource = types;
         }
 
-        private void timer1_Tick(object sender, EventArgs e)
+        #region Buttons
+        private void cancelBtn_Click(object sender, EventArgs e)
         {
-            CultureInfo ci = new CultureInfo(CultureInfo.CurrentCulture.TwoLetterISOLanguageName);
-
-            ResourceManager rm = new ResourceManager("KordellGiffordSoftwareII.Languages.Messages", typeof(Login).Assembly);
-            titleLabel.Text = rm.GetString("title", ci);
-            startLabel.Text = rm.GetString("start", ci);
-            this.Text = rm.GetString("add apoint", ci);
-            endLabel.Text = rm.GetString("end", ci);
-            cancelBtn.Text = rm.GetString("cancel", ci);
-            saveBtn.Text = rm.GetString("save", ci);
-            locationLabel.Text = rm.GetString("location", ci);
-            urlLabel.Text = rm.GetString("url", ci);
-            typeLabel.Text = rm.GetString("type", ci);
-            customerLabel.Text = rm.GetString("customers", ci);
-            contactLabel.Text = rm.GetString("contact", ci);
-            descriptionLabel.Text = rm.GetString("description", ci);
-            ci.ClearCachedData();
+            this.Close();
         }
 
         private void saveBtn_Click(object sender, EventArgs e)
@@ -83,10 +63,10 @@ namespace KordellGiffordSoftwareII
             TimeSpan start = new TimeSpan(17, 0, 0);
             TimeSpan end = new TimeSpan(8, 0, 0);
             if (endDate.Value.Date.DayOfWeek == DayOfWeek.Sunday || endDate.Value.Date.DayOfWeek == DayOfWeek.Saturday ||
-                startDate.Value.Date.DayOfWeek == DayOfWeek.Sunday || startDate.Value.Date.DayOfWeek == DayOfWeek.Saturday ||
-                this.startTime.Value.TimeOfDay < end && this.startTime.Value.TimeOfDay > start ||
-                this.endTime.Value.TimeOfDay < end && this.endTime.Value.TimeOfDay > start ||
-                this.startTime.Value.TimeOfDay > this.endTime.Value.TimeOfDay)
+                    startDate.Value.Date.DayOfWeek == DayOfWeek.Sunday || startDate.Value.Date.DayOfWeek == DayOfWeek.Saturday ||
+                    (this.startTime.Value.TimeOfDay < end || this.startTime.Value.TimeOfDay > start) ||
+                    (this.endTime.Value.TimeOfDay < end || this.endTime.Value.TimeOfDay > start) ||
+                    this.startTime.Value.TimeOfDay > this.endTime.Value.TimeOfDay)
             {
                 CultureInfo ci = new CultureInfo(CultureInfo.CurrentCulture.TwoLetterISOLanguageName);
                 MessageBox.Show(rm.GetString("bad time", ci));
@@ -129,7 +109,9 @@ namespace KordellGiffordSoftwareII
                 }
             }
         }
+        #endregion
 
+        #region Input Verification
         private void titleIn_TextChanged(object sender, EventArgs e)
         {
             if (string.IsNullOrEmpty(titleIn.Text))
@@ -290,5 +272,56 @@ namespace KordellGiffordSoftwareII
             }
             AllowSave();
         }
+        #endregion
+
+        #region Timers
+        private void timer1_Tick(object sender, EventArgs e)
+        {
+            try
+            {
+            CultureInfo ci = new CultureInfo(CultureInfo.CurrentCulture.TwoLetterISOLanguageName);
+
+            ResourceManager rm = new ResourceManager("KordellGiffordSoftwareII.Languages.Messages", typeof(Login).Assembly);
+            titleLabel.Text = rm.GetString("title", ci);
+            startLabel.Text = rm.GetString("start", ci);
+            this.Text = rm.GetString("add", ci);
+            endLabel.Text = rm.GetString("end", ci);
+            cancelBtn.Text = rm.GetString("cancel", ci);
+            saveBtn.Text = rm.GetString("save", ci);
+            locationLabel.Text = rm.GetString("location", ci);
+            urlLabel.Text = rm.GetString("url", ci);
+            typeLabel.Text = rm.GetString("type", ci);
+            customerLabel.Text = rm.GetString("customers", ci);
+            contactLabel.Text = rm.GetString("contact", ci);
+            descriptionLabel.Text = rm.GetString("description", ci);
+            ci.ClearCachedData();
+            Alert();
+
+            }
+            catch
+            {
+                //intentionally open to allow display to reset without throwing errors
+            }
+        }
+
+        private void Alert()
+        {
+            ResourceManager rm = new ResourceManager("KordellGiffordSoftwareII.Languages.Messages", typeof(Login).Assembly);
+            var alerts = Repo.Alerts();
+            if (alerts != null)
+            {
+                foreach (var item in alerts)
+                {
+                    //This is a LINQ expression, Applying a lambda expression is a simpler and easy to read syntax.
+                    Repo.appointments1.Where(x => x.appointmentId == item.Item1).ToList().ForEach(x => x.alert = 1);
+                    Repo.alerted.Add(item.Item1);
+                    var name = item.Item2;
+                    CultureInfo ci = new CultureInfo(CultureInfo.CurrentCulture.TwoLetterISOLanguageName);
+                    DialogResult dialogResult = MessageBox.Show($"{name}" + rm.GetString("15", ci));
+                    ci.ClearCachedData();
+                }
+            }
+        }
+        #endregion
     }
 }

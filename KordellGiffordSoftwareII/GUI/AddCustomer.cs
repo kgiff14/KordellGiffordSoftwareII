@@ -23,6 +23,8 @@ namespace KordellGiffordSoftwareII
             AllowSave();
         }
         ResourceManager rm = new ResourceManager("KordellGiffordSoftwareII.Languages.Messages", typeof(Login).Assembly);
+
+        #region Buttons
         private void canceBtn_Click(object sender, EventArgs e)
         {
             this.Close();
@@ -81,7 +83,7 @@ namespace KordellGiffordSoftwareII
                 ci.ClearCachedData();
             }
         }
-
+        #endregion
         private void AddCustomer_Load(object sender, EventArgs e)
         {
             //adding cities
@@ -114,6 +116,7 @@ namespace KordellGiffordSoftwareII
             cityIn.BackColor = Color.White;
         }
 
+        #region Input Verification
         private void AllowSave()
         {
             if (addressIn.BackColor == Color.White && address2In.BackColor == Color.White && nameIn.BackColor == Color.White && postalIn.BackColor == Color.White && countryIn.BackColor == Color.White
@@ -168,7 +171,7 @@ namespace KordellGiffordSoftwareII
 
         private void postalIn_TextChanged(object sender, EventArgs e)
         {
-            if (string.IsNullOrEmpty(postalIn.Text) || postalIn.Text.Length != 5)
+            if (string.IsNullOrEmpty(postalIn.Text))
             {
                 postalIn.BackColor = Color.Salmon;
             }
@@ -205,6 +208,10 @@ namespace KordellGiffordSoftwareII
             {
                 cityIn.BackColor = Color.White;
             }
+            else if (cityIn.Text != "Phoenix" && cityIn.Text != "New York" && cityIn.Text != "London")
+            {
+                cityIn.BackColor = Color.Salmon;
+            }
             else
             {
                 cityIn.BackColor = Color.Salmon;
@@ -217,14 +224,22 @@ namespace KordellGiffordSoftwareII
             {
                 countryIn.BackColor = Color.White;
             }
+            else if (cityIn.Text != "USA" && cityIn.Text != "United Kingdom")
+            {
+                countryIn.BackColor = Color.Salmon;
+            }
             else
             {
                 countryIn.BackColor = Color.Salmon;
             }
         }
+        #endregion
 
+        #region Timers
         private void timer1_Tick(object sender, EventArgs e)
         {
+            try
+            {
             CultureInfo ci = new CultureInfo(CultureInfo.CurrentCulture.TwoLetterISOLanguageName);
 
             ResourceManager rm = new ResourceManager("KordellGiffordSoftwareII.Languages.Messages", typeof(Login).Assembly);
@@ -239,6 +254,32 @@ namespace KordellGiffordSoftwareII
             cPhone.Text = rm.GetString("phone", ci);
             canceBtn.Text = rm.GetString("cancel", ci);
             ci.ClearCachedData();
+            Alert();
+
+            }
+            catch
+            {
+                //intentionally open to allow display to reset without throwing errors
+            }
         }
+
+        private void Alert()
+        {
+            var alerts = Repo.Alerts();
+            if (alerts != null)
+            {
+                foreach (var item in alerts)
+                {
+                    //This is a LINQ expression, Applying a lambda expression is a simpler and easy to read syntax.
+                    Repo.appointments1.Where(x => x.appointmentId == item.Item1).ToList().ForEach(x => x.alert = 1);
+                    Repo.alerted.Add(item.Item1);
+                    var name = item.Item2;
+                    CultureInfo ci = new CultureInfo(CultureInfo.CurrentCulture.TwoLetterISOLanguageName);
+                    DialogResult dialogResult = MessageBox.Show($"{name}" + rm.GetString("15", ci));
+                    ci.ClearCachedData();
+                }
+            }
+        }
+        #endregion
     }
 }

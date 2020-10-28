@@ -21,6 +21,7 @@ namespace KordellGiffordSoftwareII
         }
         ResourceManager rm = new ResourceManager("KordellGiffordSoftwareII.Languages.Messages", typeof(Login).Assembly);
 
+        #region Buttons
         private void closeBtn_Click(object sender, EventArgs e)
         {
             this.Close();
@@ -51,6 +52,47 @@ namespace KordellGiffordSoftwareII
             }
         }
 
+        private void deleteBtn_Click(object sender, EventArgs e)
+        {
+            if (Repo.Index > -1)
+            {
+                try
+                {
+                    var customerName = customerList.SelectedRows[0].Cells[1].Value.ToString();
+                    int customerId = Convert.ToInt32(customerList.SelectedRows[0].Cells[0].Value.ToString());
+                    CultureInfo ci = new CultureInfo(CultureInfo.CurrentCulture.TwoLetterISOLanguageName);
+                    DialogResult dialogResult = MessageBox.Show(rm.GetString("confirm delete", ci) + $"{customerName}?", rm.GetString("Confirm", ci), MessageBoxButtons.YesNo);
+                    if (dialogResult == DialogResult.Yes)
+                    {
+                        if (Repo.DeleteCustomer(customerId))
+                        {
+                            Display();
+                            MessageBox.Show($"{customerName}" + rm.GetString("cust delete", ci));
+                        }
+                        else
+                        {
+                            MessageBox.Show(rm.GetString("customer not deleted", ci));
+                        }
+                    }
+                    ci.ClearCachedData();
+                }
+                catch (Exception)
+                {
+                    CultureInfo ci = new CultureInfo(CultureInfo.CurrentCulture.TwoLetterISOLanguageName);
+                    MessageBox.Show(rm.GetString("customer not deleted", ci));
+                    ci.ClearCachedData();
+                }
+            }
+            else
+            {
+                CultureInfo ci = new CultureInfo(CultureInfo.CurrentCulture.TwoLetterISOLanguageName);
+                MessageBox.Show(rm.GetString("cust select"));
+                ci.ClearCachedData();
+            }
+        }
+        #endregion
+
+        #region Content Manipulation
         private void Display()
         {
             //Grab all the customers and put it into a generic list.
@@ -97,45 +139,6 @@ namespace KordellGiffordSoftwareII
             }
         }
 
-        private void deleteBtn_Click(object sender, EventArgs e)
-        {
-            if (Repo.Index > -1)
-            {
-                try
-                {
-                    var customerName = customerList.SelectedRows[0].Cells[1].Value.ToString();
-                    int customerId = Convert.ToInt32(customerList.SelectedRows[0].Cells[0].Value.ToString());
-                    CultureInfo ci = new CultureInfo(CultureInfo.CurrentCulture.TwoLetterISOLanguageName);
-                    DialogResult dialogResult = MessageBox.Show(rm.GetString("confirm delete", ci) + $"{customerName}?", rm.GetString("Confirm", ci), MessageBoxButtons.YesNo);
-                    if (dialogResult == DialogResult.Yes)
-                    {
-                        if (Repo.DeleteCustomer(customerId))
-                        {
-                            Display();
-                            MessageBox.Show($"{customerName}" + rm.GetString("cust delete", ci));
-                        }
-                        else
-                        {
-                            MessageBox.Show(rm.GetString("customer not deleted", ci));
-                        }
-                    }
-                    ci.ClearCachedData();
-                }
-                catch (Exception)
-                {
-                    CultureInfo ci = new CultureInfo(CultureInfo.CurrentCulture.TwoLetterISOLanguageName);
-                    MessageBox.Show(rm.GetString("customer not deleted", ci));
-                    ci.ClearCachedData();
-                }
-            }
-            else
-            {
-                CultureInfo ci = new CultureInfo(CultureInfo.CurrentCulture.TwoLetterISOLanguageName);
-                MessageBox.Show(rm.GetString("cust select"));
-                ci.ClearCachedData();
-            }
-        }
-
         private void CustomerScreen_Load(object sender, EventArgs e)
         {
             //Grab all the customers and put it into a generic list.
@@ -150,9 +153,13 @@ namespace KordellGiffordSoftwareII
             customerList.ClearSelection();
             Repo.Index = -1;
         }
+        #endregion
 
+        #region Timers
         private void timer1_Tick(object sender, EventArgs e)
         {
+            try
+            {
             CultureInfo ci = new CultureInfo(CultureInfo.CurrentCulture.TwoLetterISOLanguageName);
 
             ResourceManager rm = new ResourceManager("KordellGiffordSoftwareII.Languages.Messages", typeof(Login).Assembly);
@@ -171,6 +178,32 @@ namespace KordellGiffordSoftwareII
             modifyBtn.Text = rm.GetString("modify", ci);
             deleteBtn.Text = rm.GetString("delete", ci);
             ci.ClearCachedData();
+            Alert();
+
+            }
+            catch
+            {
+                //intentionally open to allow display to reset without throwing errors
+            }
         }
+
+        private void Alert()
+        {
+            var alerts = Repo.Alerts();
+            if (alerts != null)
+            {
+                foreach (var item in alerts)
+                {
+                    //This is a LINQ expression, Applying a lambda expression is a simpler and easy to read syntax.
+                    Repo.appointments1.Where(x => x.appointmentId == item.Item1).ToList().ForEach(x => x.alert = 1);
+                    Repo.alerted.Add(item.Item1);
+                    var name = item.Item2;
+                    CultureInfo ci = new CultureInfo(CultureInfo.CurrentCulture.TwoLetterISOLanguageName);
+                    DialogResult dialogResult = MessageBox.Show($"{name}" + rm.GetString("15", ci));
+                    ci.ClearCachedData();
+                }
+            }
+        }
+        #endregion
     }
 }

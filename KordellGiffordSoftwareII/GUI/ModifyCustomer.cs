@@ -23,12 +23,64 @@ namespace KordellGiffordSoftwareII
         }
         ResourceManager rm = new ResourceManager("KordellGiffordSoftwareII.Languages.Messages", typeof(Login).Assembly);
 
+        #region Buttons
         private void canceBtn_Click(object sender, EventArgs e)
         {
             this.Close();
             CustomerScreen customerScreen = new CustomerScreen();
             customerScreen.Show();
         }
+        private void saveBtn_Click(object sender, EventArgs e)
+        {
+            var tempId = Repo.Index;
+            var name = nameIn.Text;
+            var address = addressIn.Text;
+            var address2 = address2In.Text;
+            var city = cityIn.Text;
+            switch (city)
+            {
+                case "Phoenix":
+                    city = "1";
+                    break;
+                case "New York":
+                    city = "2";
+                    break;
+                case "London":
+                    city = "3";
+                    break;
+            }
+            var postal = postalIn.Text;
+            var country = countryIn.Text;
+            switch (country)
+            {
+                case "USA":
+                    country = "1";
+                    break;
+                case "United Kingdom":
+                    country = "2";
+                    break;
+            }
+            var phone = phoneIn.Text.ToString();
+
+            Customers add = new Customers(tempId, name, address, address2, postal, city, country, phone);
+
+            if (Repo.ModifyCustomer(add))
+            {
+                CultureInfo ci = new CultureInfo(CultureInfo.CurrentCulture.TwoLetterISOLanguageName);
+                MessageBox.Show(rm.GetString("cust update", ci));
+                ci.ClearCachedData();
+                this.Close();
+                CustomerScreen customerScreen = new CustomerScreen();
+                customerScreen.Show();
+            }
+            else
+            {
+                CultureInfo ci = new CultureInfo(CultureInfo.CurrentCulture.TwoLetterISOLanguageName);
+                MessageBox.Show(rm.GetString("cust not updated", ci));
+                ci.ClearCachedData();
+            }
+        }
+        #endregion
 
         private void ModifyCustomer_Load(object sender, EventArgs e)
         {
@@ -84,6 +136,7 @@ namespace KordellGiffordSoftwareII
             cityIn.BackColor = Color.White;
         }
 
+        #region Input Verifications
         private void nameIn_TextChanged(object sender, EventArgs e)
         {
             if (string.IsNullOrEmpty(nameIn.Text) || nameIn.Text.All(char.IsDigit))
@@ -129,6 +182,10 @@ namespace KordellGiffordSoftwareII
             {
                 cityIn.BackColor = Color.White;
             }
+            else if (cityIn.Text != "Phoenix" && cityIn.Text != "New York" && cityIn.Text != "London")
+            {
+                cityIn.BackColor = Color.Salmon;
+            }
             else
             {
                 cityIn.BackColor = Color.Salmon;
@@ -137,7 +194,7 @@ namespace KordellGiffordSoftwareII
 
         private void postalIn_TextChanged(object sender, EventArgs e)
         {
-            if (string.IsNullOrEmpty(postalIn.Text) || postalIn.Text.Length != 5)
+            if (string.IsNullOrEmpty(postalIn.Text))
             {
                 postalIn.BackColor = Color.Salmon;
             }
@@ -153,6 +210,10 @@ namespace KordellGiffordSoftwareII
             if ((cityIn.Text == "Phoenix" && countryIn.Text == "USA") || (cityIn.Text == "New York" && countryIn.Text == "USA") || (cityIn.Text == "London" && countryIn.Text == "United Kingdom"))
             {
                 countryIn.BackColor = Color.White;
+            }
+            else if (cityIn.Text != "USA" && cityIn.Text != "United Kingdom")
+            {
+                countryIn.BackColor = Color.Salmon;
             }
             else
             {
@@ -180,57 +241,6 @@ namespace KordellGiffordSoftwareII
             }
         }
 
-        private void saveBtn_Click(object sender, EventArgs e)
-        {
-            var tempId = Repo.Index;
-            var name = nameIn.Text;
-            var address = addressIn.Text;
-            var address2 = address2In.Text;
-            var city = cityIn.Text;
-            switch (city)
-            {
-                case "Phoenix":
-                    city = "1";
-                    break;
-                case "New York":
-                    city = "2";
-                    break;
-                case "London":
-                    city = "3";
-                    break;
-            }
-            var postal = postalIn.Text;
-            var country = countryIn.Text;
-            switch (country)
-            {
-                case "USA":
-                    country = "1";
-                    break;
-                case "United Kingdom":
-                    country = "2";
-                    break;
-            }
-            var phone = phoneIn.Text.ToString();
-
-            Customers add = new Customers(tempId, name, address, address2, postal, city, country, phone);
-
-            if (Repo.ModifyCustomer(add))
-            {
-                CultureInfo ci = new CultureInfo(CultureInfo.CurrentCulture.TwoLetterISOLanguageName);
-                MessageBox.Show(rm.GetString("cust update", ci));
-                ci.ClearCachedData();
-                this.Close();
-                CustomerScreen customerScreen = new CustomerScreen();
-                customerScreen.Show();
-            }
-            else
-            {
-                CultureInfo ci = new CultureInfo(CultureInfo.CurrentCulture.TwoLetterISOLanguageName);
-                MessageBox.Show(rm.GetString("cust not updated", ci));
-                ci.ClearCachedData();
-            }
-        }
-
         private void AllowSave()
         {
             if (addressIn.BackColor == Color.White && address2In.BackColor == Color.White && nameIn.BackColor == Color.White && postalIn.BackColor == Color.White && countryIn.BackColor == Color.White
@@ -243,9 +253,13 @@ namespace KordellGiffordSoftwareII
                 saveBtn.Enabled = false;
             }
         }
+        #endregion
 
+        #region Timers
         private void timer1_Tick(object sender, EventArgs e)
         {
+            try
+            {
             CultureInfo ci = new CultureInfo(CultureInfo.CurrentCulture.TwoLetterISOLanguageName);
 
             ResourceManager rm = new ResourceManager("KordellGiffordSoftwareII.Languages.Messages", typeof(Login).Assembly);
@@ -260,6 +274,32 @@ namespace KordellGiffordSoftwareII
             cPhone.Text = rm.GetString("phone", ci);
             canceBtn.Text = rm.GetString("cancel", ci);
             ci.ClearCachedData();
+            Alert();
+
+            }
+            catch
+            {
+                //intentionally open to allow display to reset without throwing errors
+            }
         }
+
+        private void Alert()
+        {
+            var alerts = Repo.Alerts();
+            if (alerts != null)
+            {
+                foreach (var item in alerts)
+                {
+                    //This is a LINQ expression, Applying a lambda expression is a simpler and easy to read syntax.
+                    Repo.appointments1.Where(x => x.appointmentId == item.Item1).ToList().ForEach(x => x.alert = 1);
+                    Repo.alerted.Add(item.Item1);
+                    var name = item.Item2;
+                    CultureInfo ci = new CultureInfo(CultureInfo.CurrentCulture.TwoLetterISOLanguageName);
+                    DialogResult dialogResult = MessageBox.Show($"{name}" + rm.GetString("15", ci));
+                    ci.ClearCachedData();
+                }
+            }
+        }
+        #endregion
     }
 }

@@ -20,13 +20,7 @@ namespace KordellGiffordSoftwareII
         {
             InitializeComponent();
         }
-
-        private void cancelBtn_Click(object sender, EventArgs e)
-        {
-            this.Close();
-        }
         public List<Tuple<int, string>> customers = new List<Tuple<int, string>>();
-
         private void ModifyAppointment_Load(object sender, EventArgs e)
         {
             DataAccess da = new DataAccess();
@@ -75,17 +69,22 @@ namespace KordellGiffordSoftwareII
             //This is a LINQ expression, Applying a lambda expression is a simpler and easy to read syntax.
             locationIn.Text = all.Where(x => x.appointmentId.ToString() == current).ToList().Select(x => x.location).ToList()[0];
             //This is a LINQ expression, Applying a lambda expression is a simpler and easy to read syntax.
-            startDate.Text = all.Where(x => x.appointmentId.ToString() == current).ToList().Select(x => TimeZoneInfo.ConvertTimeFromUtc((DateTime)x.start, TimeZoneInfo.Local)).ToList()[0].ToString();
+            startDate.Text = all.Where(x => x.appointmentId.ToString() == current).ToList().Select(x => x.start).ToList()[0].ToString();
             //This is a LINQ expression, Applying a lambda expression is a simpler and easy to read syntax.
-            startTime.Text = all.Where(x => x.appointmentId.ToString() == current).ToList().Select(x => TimeZoneInfo.ConvertTimeFromUtc((DateTime)x.start, TimeZoneInfo.Local)).ToList()[0].ToString();
+            startTime.Text = all.Where(x => x.appointmentId.ToString() == current).ToList().Select(x => x.start).ToList()[0].ToString();
             //This is a LINQ expression, Applying a lambda expression is a simpler and easy to read syntax.
-            endDate.Text = all.Where(x => x.appointmentId.ToString() == current).ToList().Select(x => TimeZoneInfo.ConvertTimeFromUtc((DateTime)x.end, TimeZoneInfo.Local)).ToList()[0].ToString();
+            endDate.Text = all.Where(x => x.appointmentId.ToString() == current).ToList().Select(x => x.end).ToList()[0].ToString();
             //This is a LINQ expression, Applying a lambda expression is a simpler and easy to read syntax.
-            endTime.Text = all.Where(x => x.appointmentId.ToString() == current).ToList().Select(x => TimeZoneInfo.ConvertTimeFromUtc((DateTime)x.end, TimeZoneInfo.Local)).ToList()[0].ToString();
+            endTime.Text = all.Where(x => x.appointmentId.ToString() == current).ToList().Select(x => x.end).ToList()[0].ToString();
             customerIn.BackColor = Color.White;
             AllowSave();
         }
 
+        #region Buttons
+        private void cancelBtn_Click(object sender, EventArgs e)
+        {
+            this.Close();
+        }
         private void saveBtn_Click(object sender, EventArgs e)
         {
             try
@@ -93,14 +92,17 @@ namespace KordellGiffordSoftwareII
                 ResourceManager rm = new ResourceManager("KordellGiffordSoftwareII.Languages.Messages", typeof(Login).Assembly);
                 var startTime = startDate.Value.Date + this.startTime.Value.TimeOfDay;
                 var endTime = endDate.Value.Date + this.endTime.Value.TimeOfDay;
+                var all = Repo.appointments1;
+                var current = Repo.IndexItem.ToString();
+                int aId = all.Where(x => x.appointmentId.ToString() == current).ToList().Select(x => x.appointmentId).ToList()[0];
                 //This is a LINQ expression, Applying a lambda expression is a simpler and easy to read syntax.
-                bool overlap = Repo.appointments1.Any(x => startTime < x.end && endTime > x.start);
+                bool overlap = Repo.appointments1.Any(x => startTime < x.end && endTime > x.start && x.appointmentId != aId);
                 TimeSpan start = new TimeSpan(17, 0, 0);
                 TimeSpan end = new TimeSpan(8, 0, 0);
                 if (endDate.Value.Date.DayOfWeek == DayOfWeek.Sunday || endDate.Value.Date.DayOfWeek == DayOfWeek.Saturday ||
                     startDate.Value.Date.DayOfWeek == DayOfWeek.Sunday || startDate.Value.Date.DayOfWeek == DayOfWeek.Saturday ||
-                    this.startTime.Value.TimeOfDay < end && this.startTime.Value.TimeOfDay > start ||
-                    this.endTime.Value.TimeOfDay < end && this.endTime.Value.TimeOfDay > start ||
+                    (this.startTime.Value.TimeOfDay < end || this.startTime.Value.TimeOfDay > start) ||
+                    (this.endTime.Value.TimeOfDay < end || this.endTime.Value.TimeOfDay > start) ||
                     this.startTime.Value.TimeOfDay > this.endTime.Value.TimeOfDay)
                 {
                     CultureInfo ci = new CultureInfo(CultureInfo.CurrentCulture.TwoLetterISOLanguageName);
@@ -115,17 +117,12 @@ namespace KordellGiffordSoftwareII
                 }
                 else
                 {
-                    //customerInfo
-                    var all = Repo.appointments1;
-                    var current = Repo.IndexItem.ToString();
-
                     var tempId = 0;
                     var title = titleIn.Text;
                     var location = locationIn.Text;
                     var description = descriptionIn.Text;
                     //This is a LINQ expression, Applying a lambda expression is a simpler and easy to read syntax.
                     int customer = customers.Where(x => x.Item2 == customerIn.Text).Select(x => x.Item1).First();
-                    int aId = all.Where(x => x.appointmentId.ToString() == current).ToList().Select(x => x.appointmentId).ToList()[0];
 
                     var contact = contactIn.Text;
                     var url = urlIn.Text;
@@ -158,7 +155,9 @@ namespace KordellGiffordSoftwareII
                 ci.ClearCachedData();
             }
         }
+        #endregion
 
+        #region Input Verifications
         private void titleIn_TextChanged(object sender, EventArgs e)
         {
             if (string.IsNullOrEmpty(titleIn.Text))
@@ -319,15 +318,19 @@ namespace KordellGiffordSoftwareII
             }
             AllowSave();
         }
+        #endregion
 
+        #region Timers
         private void timer1_Tick(object sender, EventArgs e)
         {
+            try
+            {
             CultureInfo ci = new CultureInfo(CultureInfo.CurrentCulture.TwoLetterISOLanguageName);
 
             ResourceManager rm = new ResourceManager("KordellGiffordSoftwareII.Languages.Messages", typeof(Login).Assembly);
             titleLabel.Text = rm.GetString("title", ci);
             startLabel.Text = rm.GetString("start", ci);
-            this.Text = rm.GetString("add apoint", ci);
+            this.Text = rm.GetString("modify", ci);
             endLabel.Text = rm.GetString("end", ci);
             cancelBtn.Text = rm.GetString("cancel", ci);
             saveBtn.Text = rm.GetString("save", ci);
@@ -338,6 +341,33 @@ namespace KordellGiffordSoftwareII
             contactLabel.Text = rm.GetString("contact", ci);
             descriptionLabel.Text = rm.GetString("description", ci);
             ci.ClearCachedData();
+            Alert();
+
+            }
+            catch
+            {
+                //intentionally open to allow display to reset without throwing errors
+            }
         }
+
+        private void Alert()
+        {
+            ResourceManager rm = new ResourceManager("KordellGiffordSoftwareII.Languages.Messages", typeof(Login).Assembly);
+            var alerts = Repo.Alerts();
+            if (alerts != null)
+            {
+                foreach (var item in alerts)
+                {
+                    //This is a LINQ expression, Applying a lambda expression is a simpler and easy to read syntax.
+                    Repo.appointments1.Where(x => x.appointmentId == item.Item1).ToList().ForEach(x => x.alert = 1);
+                    Repo.alerted.Add(item.Item1);
+                    var name = item.Item2;
+                    CultureInfo ci = new CultureInfo(CultureInfo.CurrentCulture.TwoLetterISOLanguageName);
+                    DialogResult dialogResult = MessageBox.Show($"{name}" + rm.GetString("15", ci));
+                    ci.ClearCachedData();
+                }
+            }
+        }
+        #endregion
     }
 }

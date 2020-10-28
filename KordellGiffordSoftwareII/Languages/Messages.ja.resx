@@ -117,6 +117,9 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="15" xml:space="preserve">
+    <value>15分以内に開始されます。</value>
+  </data>
   <data name="add" xml:space="preserve">
     <value>作成</value>
   </data>
@@ -159,8 +162,14 @@
   <data name="bad time" xml:space="preserve">
     <value>予定は営業時間には含まれません。 （M-F 8-5）</value>
   </data>
+  <data name="by cust" xml:space="preserve">
+    <value>顧客別の会議の種類</value>
+  </data>
   <data name="by month" xml:space="preserve">
     <value>月別の会議の種類</value>
+  </data>
+  <data name="by user" xml:space="preserve">
+    <value>各コンサルタントのスケジュール</value>
   </data>
   <data name="cancel" xml:space="preserve">
     <value>キャンセル</value>
@@ -281,6 +290,9 @@
   </data>
   <data name="save" xml:space="preserve">
     <value>保存</value>
+  </data>
+  <data name="schedule" xml:space="preserve">
+    <value>コンサルタントによるスケジュール</value>
   </data>
   <data name="start" xml:space="preserve">
     <value>開始</value>

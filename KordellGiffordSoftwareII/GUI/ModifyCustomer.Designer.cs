@@ -46,6 +46,7 @@
             this.cityIn = new System.Windows.Forms.ComboBox();
             this.countryIn = new System.Windows.Forms.ComboBox();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
+            this.phoneFormat = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // phoneIn
@@ -186,6 +187,7 @@
             this.cityIn.Size = new System.Drawing.Size(121, 21);
             this.cityIn.TabIndex = 42;
             this.cityIn.SelectedIndexChanged += new System.EventHandler(this.cityIn_SelectedIndexChanged);
+            this.cityIn.TextChanged += new System.EventHandler(this.cityIn_SelectedIndexChanged);
             // 
             // countryIn
             // 
@@ -195,11 +197,24 @@
             this.countryIn.Size = new System.Drawing.Size(121, 21);
             this.countryIn.TabIndex = 43;
             this.countryIn.SelectedIndexChanged += new System.EventHandler(this.countryIn_SelectedIndexChanged);
+            this.countryIn.TextChanged += new System.EventHandler(this.countryIn_SelectedIndexChanged);
             // 
             // timer1
             // 
             this.timer1.Enabled = true;
             this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
+            // 
+            // phoneFormat
+            // 
+            this.phoneFormat.AutoSize = true;
+            this.phoneFormat.BackColor = System.Drawing.SystemColors.GradientActiveCaption;
+            this.phoneFormat.ForeColor = System.Drawing.SystemColors.ControlDark;
+            this.phoneFormat.Location = new System.Drawing.Point(149, 301);
+            this.phoneFormat.Name = "phoneFormat";
+            this.phoneFormat.Size = new System.Drawing.Size(121, 13);
+            this.phoneFormat.TabIndex = 44;
+            this.phoneFormat.Text = "Format: ###-###-####";
+            this.phoneFormat.Visible = false;
             // 
             // ModifyCustomer
             // 
@@ -207,6 +222,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.GradientActiveCaption;
             this.ClientSize = new System.Drawing.Size(332, 397);
+            this.Controls.Add(this.phoneFormat);
             this.Controls.Add(this.countryIn);
             this.Controls.Add(this.cityIn);
             this.Controls.Add(this.phoneIn);
@@ -251,5 +267,6 @@
         private System.Windows.Forms.ComboBox cityIn;
         private System.Windows.Forms.ComboBox countryIn;
         private System.Windows.Forms.Timer timer1;
+        private System.Windows.Forms.Label phoneFormat;
     }
 }

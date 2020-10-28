@@ -26,11 +26,163 @@ namespace KordellGiffordSoftwareII
         #region Calendar Population
         private void MainScreen_Load(object sender, EventArgs e)
         {
+            DatePopulation();
+        }
+
+        public void Display()
+        {
+            DatePopulation();
+        }
+
+        public void AppointmentsDisplay(DateTime time)
+        {
+            //This is a LINQ expression, Applying a lambda expression is a simpler and easy to read syntax.
+            List<Tuple<int, string, DateTime, DateTime>> apt = Repo.appointments1.Where(x => x.start.Day == time.Day && x.start.Month == time.Month && x.start.Year == time.Year)
+                .Select(x => new Tuple<int, string, DateTime, DateTime>(x.appointmentId, x.title, x.start, x.end)).ToList();
+            appointmentsTable.DataSource = apt;
+            appointmentsTable.Columns[0].HeaderText = "";
+            appointmentsTable.Columns[0].Visible = false;
+            appointmentsTable.Columns[1].HeaderText = "";
+            appointmentsTable.Columns[2].HeaderText = "";
+            appointmentsTable.Columns[3].HeaderText = "";
+            appointmentsTable.ClearSelection();
+        }
+
+        private bool AppointmentMarker(DateTime time)
+        {
+            //This is a LINQ expression, Applying a lambda expression is a simpler and easy to read syntax.
+            return Repo.appointments1.Any(x => x.start.Day == time.Day && x.start.Month == time.Month && x.start.Year == time.Year);
+        }
+
+        private void dateTimePicker1_ValueChanged(object sender, EventArgs e)
+        {
+            var newDate = dateTimePicker1.Value;
+            var newMonth = CultureInfo.InvariantCulture.DateTimeFormat.GetAbbreviatedMonthName(newDate.Month);
+            var newYear = newDate.Year.ToString();
+            var newDay = newDate.Day.ToString();
+            DatePickerPopluation(newMonth, newYear, newDay);
+        }
+
+        private void WeekView(int count, object cell)
+        {
+            DataRow dr;
+            DataTable dt = new DataTable();
+            dt.Columns.Add("Sunday");
+            dt.Columns.Add("Monday");
+            dt.Columns.Add("Tuesday");
+            dt.Columns.Add("Wednesday");
+            dt.Columns.Add("Thursday");
+            dt.Columns.Add("Friday");
+            dt.Columns.Add("Saturday");
+            dr = dt.NewRow();
+            var test = calendar.Rows[count];
+            for (var i = 0; i < test.Cells.Count; i++)
+            {
+                dr[i] = test.Cells[i].Value;
+            }
+            dt.Rows.Add(dr);
+            weekCal.DataSource = dt;
+            weekCal.ClearSelection();
+            var culture = CultureInfo.CurrentCulture.TwoLetterISOLanguageName;
+            foreach (DataGridViewRow row in weekCal.Rows)
+            {
+                foreach (DataGridViewCell data in row.Cells)
+                {
+                    var date = DateTime.Now;
+                    if (!string.IsNullOrEmpty(data.Value.ToString()))
+                    {
+                        switch (culture)
+                        {
+                            case "en":
+                                date = Convert.ToDateTime(string.Concat(monthLabel.Text, data.Value, ",", yearLabel.Text));
+                                break;
+                            case "ja":
+                                date = Convert.ToDateTime(string.Concat(yearLabel.Text, "年", dateTimePicker1.Value.Month, "月", data.Value, "日"));
+                                break;
+                        }
+                        if (AppointmentMarker(date))
+                        {
+                            data.Style.BackColor = Color.Yellow;
+                        }
+                        else
+                        {
+                            data.Style.BackColor = Color.White;
+                        }
+                        if (data.Value == cell)
+                        {
+                            data.Selected = true;
+                        }
+                    }
+                }
+            }
+            appointmentsTable.ClearSelection();
+        }
+
+        private void calendar_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+            var row = calendar.CurrentRow.Index;
+            var cell = calendar.CurrentCell.Value.ToString();
+            WeekView(row, cell);
+            var date = DateTime.Now;
+            var culture = CultureInfo.CurrentCulture.TwoLetterISOLanguageName;
+            if (!string.IsNullOrEmpty(cell))
+            {
+                switch (culture)
+                {
+                    case "en":
+                        date = Convert.ToDateTime(string.Concat(monthLabel.Text, cell, ",", yearLabel.Text));
+                        break;
+                    case "ja":
+                        date = Convert.ToDateTime(string.Concat(yearLabel.Text, "年", dateTimePicker1.Value.Month, "月", cell, "日"));
+                        break;
+                }
+                AppointmentsDisplay(date);
+            }
+        }
+        private void appointmentsTable_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+            Repo.IndexItem = Convert.ToInt32(appointmentsTable.SelectedRows[0].Cells[0].Value);
+        }
+
+        private void weekCal_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+            var cell = weekCal.CurrentCell.Value;
+            foreach (DataGridViewRow row in calendar.Rows)
+            {
+                foreach (DataGridViewCell data in row.Cells)
+                {
+                    if (data.Value == cell)
+                    {
+                        data.Selected = true;
+                        var date = DateTime.Now;
+                        var culture = CultureInfo.CurrentCulture.TwoLetterISOLanguageName;
+                        if (!string.IsNullOrEmpty(data.Value.ToString()))
+                        {
+                            switch (culture)
+                            {
+                                case "en":
+                                    date = Convert.ToDateTime(string.Concat(monthLabel.Text, data.Value, ",", yearLabel.Text));
+                                    break;
+                                case "ja":
+                                    date = Convert.ToDateTime(string.Concat(yearLabel.Text, "年", dateTimePicker1.Value.Month, "月", data.Value, "日"));
+                                    break;
+                            }
+                            AppointmentsDisplay(date);
+                            return;
+
+                        }
+                    }
+                }
+            }
+        }
+
+        private void DatePopulation()
+        {
             Repo.IndexItem = -1;
             monthLabel.Text = CultureInfo.CurrentCulture.DateTimeFormat.GetAbbreviatedMonthName(DateTime.Now.Month);
             yearLabel.Text = DateTime.Now.Year.ToString();
             int day = DateTime.Now.Day;
-            string month = CultureInfo.CurrentCulture.DateTimeFormat.GetAbbreviatedMonthName(DateTime.Now.Month);
+            string month = CultureInfo.InvariantCulture.DateTimeFormat.GetAbbreviatedMonthName(DateTime.Now.Month);
             int yearofMonth = DateTime.Now.Year;
             DateTime dateTime = Convert.ToDateTime("01-" + month + "-" + yearofMonth);
             DataRow dr;
@@ -89,150 +241,49 @@ namespace KordellGiffordSoftwareII
             Repo.Index = -1;
             Repo.GetAppointments();
             int count = 0;
+            var date = DateTime.Now;
+            var culture = CultureInfo.CurrentCulture.TwoLetterISOLanguageName;
             foreach (DataGridViewRow row in calendar.Rows)
             {
                 foreach (DataGridViewCell cell in row.Cells)
                 {
-                    var date = Convert.ToDateTime(string.Concat(monthLabel.Text, cell.Value, ",", yearLabel.Text));
-                    if (AppointmentMarker(date))
+                    if (!string.IsNullOrEmpty(cell.Value.ToString()))
                     {
-                        cell.Style.BackColor = Color.Yellow;
-                    }
-                    else
-                    {
-                        cell.Style.BackColor = Color.White;
-                    }
-                    if (cell.Value.ToString() == day.ToString())
-                    {
-                        cell.Selected = true;
-                        WeekView(count, cell.Value);
-                        date = Convert.ToDateTime(string.Concat(monthLabel.Text, cell.Value, ",", yearLabel.Text)).ToUniversalTime();
-                        AppointmentsDisplay(date);
-                        //return;
+                        switch (culture)
+                        {
+                            case "en":
+                                date = Convert.ToDateTime(string.Concat(monthLabel.Text, cell.Value, ",", yearLabel.Text));
+                                break;
+                            case "ja":
+                                //JapaneseCalendar
+                                date = Convert.ToDateTime(string.Concat(yearLabel.Text, "年", dateTimePicker1.Value.Month, "月", cell.Value, "日"));
+                                break;
+                        }
+                        if (AppointmentMarker(date))
+                        {
+                            cell.Style.BackColor = Color.Yellow;
+                        }
+                        else
+                        {
+                            cell.Style.BackColor = Color.White;
+                        }
+                        if (cell.Value.ToString() == day.ToString())
+                        {
+                            cell.Selected = true;
+                            WeekView(count, cell.Value);
+                            AppointmentsDisplay(date);
+                            //return;
+                        }
                     }
                 }
                 count++;
             }
             appointmentsTable.ClearSelection();
-
-            
-
         }
 
-        public void Display()
+        private void DatePickerPopluation(string month, string year, string day)
         {
             Repo.IndexItem = -1;
-            monthLabel.Text = CultureInfo.CurrentCulture.DateTimeFormat.GetAbbreviatedMonthName(DateTime.UtcNow.Month);
-            yearLabel.Text = DateTime.UtcNow.Year.ToString();
-            int day = DateTime.UtcNow.Day;
-            string month = CultureInfo.CurrentCulture.DateTimeFormat.GetAbbreviatedMonthName(DateTime.UtcNow.Month);
-            int yearofMonth = DateTime.UtcNow.Year;
-            DateTime dateTime = Convert.ToDateTime("01-" + month + "-" + yearofMonth);
-            DataRow dr;
-            DataTable dt = new DataTable();
-            dt.Columns.Add("Sunday");
-            dt.Columns.Add("Monday");
-            dt.Columns.Add("Tuesday");
-            dt.Columns.Add("Wednesday");
-            dt.Columns.Add("Thursday");
-            dt.Columns.Add("Friday");
-            dt.Columns.Add("Saturday");
-            dr = dt.NewRow();
-            for (int i = 0; i < DateTime.DaysInMonth(dateTime.Year, dateTime.Month); i += 1)
-            {
-                if (Convert.ToDateTime(dateTime.AddDays(i)).DayOfWeek == DayOfWeek.Sunday)
-                {
-                    dr["Sunday"] = i + 1;
-                }
-                if (Convert.ToDateTime(dateTime.AddDays(i)).DayOfWeek == DayOfWeek.Monday)
-                {
-                    dr["Monday"] = i + 1;
-                }
-                if (dateTime.AddDays(i).DayOfWeek == DayOfWeek.Tuesday)
-                {
-                    dr["Tuesday"] = i + 1;
-                }
-                if (dateTime.AddDays(i).DayOfWeek == DayOfWeek.Wednesday)
-                {
-                    dr["Wednesday"] = i + 1;
-                }
-                if (dateTime.AddDays(i).DayOfWeek == DayOfWeek.Thursday)
-                {
-                    dr["Thursday"] = i + 1;
-                }
-                if (dateTime.AddDays(i).DayOfWeek == DayOfWeek.Friday)
-                {
-                    dr["Friday"] = i + 1;
-                }
-                if (dateTime.AddDays(i).DayOfWeek == DayOfWeek.Saturday)
-                {
-                    dr["Saturday"] = i + 1;
-                    dt.Rows.Add(dr);
-                    dr = dt.NewRow();
-                    continue;
-                }
-                if (i == DateTime.DaysInMonth(dateTime.Year, dateTime.Month) - 1)
-                {
-                    dt.Rows.Add(dr);
-                    dr = dt.NewRow();
-
-                }
-            }
-
-            calendar.DataSource = dt;
-            calendar.ClearSelection();
-            Repo.Index = -1;
-            Repo.GetAppointments();
-            int count = 0;
-            foreach (DataGridViewRow row in calendar.Rows)
-            {
-                foreach (DataGridViewCell cell in row.Cells)
-                {
-                    if (cell.Value.ToString() == day.ToString())
-                    {
-                        cell.Selected = true;
-                        WeekView(count, cell.Value);
-                        var date = Convert.ToDateTime(string.Concat(monthLabel.Text, cell.Value, ",", yearLabel.Text)).ToUniversalTime();
-                        AppointmentsDisplay(date);
-                        //return;
-                    }
-                }
-                count++;
-            }
-            appointmentsTable.ClearSelection();
-        }
-
-        public void AppointmentsDisplay(DateTime time)
-        {
-            //This is a LINQ expression, Applying a lambda expression is a simpler and easy to read syntax.
-            List<Tuple<int, string, DateTime, DateTime>> apt = Repo.appointments1.Where(x => x.start.Day == time.Day && x.start.Month == time.Month && x.start.Year == time.Year)
-                .Select(x => new Tuple<int, string, DateTime, DateTime>(x.appointmentId, x.title, TimeZoneInfo.ConvertTimeFromUtc((DateTime)x.start, TimeZoneInfo.Local), TimeZoneInfo.ConvertTimeFromUtc((DateTime)x.end, TimeZoneInfo.Local))).ToList();
-            appointmentsTable.DataSource = apt;
-            appointmentsTable.Columns[0].HeaderText = "Appointment Id";
-            appointmentsTable.Columns[0].Visible = false;
-            appointmentsTable.Columns[1].HeaderText = "Appointment Title";
-            appointmentsTable.Columns[2].HeaderText = "Start Time";
-            appointmentsTable.Columns[3].HeaderText = "End Time";
-            appointmentsTable.ClearSelection();
-        }
-
-        private bool AppointmentMarker(DateTime time)
-        {
-            //This is a LINQ expression, Applying a lambda expression is a simpler and easy to read syntax.
-            return Repo.appointments1.Any(x => x.start.Day == time.Day && x.start.Month == time.Month && x.start.Year == time.Year);
-        }
-
-        private void dateTimePicker1_ValueChanged(object sender, EventArgs e)
-        {
-            var newDate = dateTimePicker1.Value;
-            var newMonth = CultureInfo.CurrentCulture.DateTimeFormat.GetAbbreviatedMonthName(newDate.Month);
-            var newYear = newDate.Year.ToString(); ;
-            var newDay = newDate.Day.ToString();
-            DateChange(newMonth, newYear, newDay);
-        }
-
-        private void DateChange(string month, string year, string day)
-        {
             monthLabel.Text = month;
             yearLabel.Text = year;
             DateTime dateTime = Convert.ToDateTime("01-" + month + "-" + year);
@@ -292,104 +343,44 @@ namespace KordellGiffordSoftwareII
             Repo.Index = -1;
             Repo.GetAppointments();
             int count = 0;
+            var date = DateTime.Now;
+            var culture = CultureInfo.CurrentCulture.TwoLetterISOLanguageName;
             foreach (DataGridViewRow row in calendar.Rows)
             {
                 foreach (DataGridViewCell cell in row.Cells)
                 {
-                    var date = Convert.ToDateTime(string.Concat(monthLabel.Text, cell.Value, ",", yearLabel.Text)).ToUniversalTime();
-                    if (AppointmentMarker(date))
+                    if (!string.IsNullOrEmpty(cell.Value.ToString()))
                     {
-                        cell.Style.BackColor = Color.Yellow;
-                    }
-                    else
-                    {
-                        cell.Style.BackColor = Color.White;
-                    }
-                    if (cell.Value.ToString() == day.ToString())
-                    {
-                        var thisWeek = row.Clone();
-                        cell.Selected = true;
-                        WeekView(count, cell.Value);
-                        AppointmentsDisplay(date);
-                        //return;
+                        switch (culture)
+                        {
+                            case "en":
+                                date = Convert.ToDateTime(string.Concat(monthLabel.Text, cell.Value, ",", yearLabel.Text));
+                                break;
+                            case "ja":
+                                //JapaneseCalendar
+                                date = Convert.ToDateTime(string.Concat(yearLabel.Text, "年", dateTimePicker1.Value.Month, "月", cell.Value, "日"));
+                                break;
+                        }
+                        if (AppointmentMarker(date))
+                        {
+                            cell.Style.BackColor = Color.Yellow;
+                        }
+                        else
+                        {
+                            cell.Style.BackColor = Color.White;
+                        }
+                        if (cell.Value.ToString() == day.ToString())
+                        {
+                            cell.Selected = true;
+                            WeekView(count, cell.Value);
+                            AppointmentsDisplay(date);
+                            //return;
+                        }
                     }
                 }
                 count++;
             }
             appointmentsTable.ClearSelection();
-        }
-
-        private void WeekView(int count, object cell)
-        {
-            DataRow dr;
-            DataTable dt = new DataTable();
-            dt.Columns.Add("Sunday");
-            dt.Columns.Add("Monday");
-            dt.Columns.Add("Tuesday");
-            dt.Columns.Add("Wednesday");
-            dt.Columns.Add("Thursday");
-            dt.Columns.Add("Friday");
-            dt.Columns.Add("Saturday");
-            dr = dt.NewRow();
-            var test = calendar.Rows[count];
-            for (var i = 0; i < test.Cells.Count; i++)
-            {
-                dr[i] = test.Cells[i].Value;
-            }
-            dt.Rows.Add(dr);
-            weekCal.DataSource = dt;
-            weekCal.ClearSelection();
-            foreach (DataGridViewRow row in weekCal.Rows)
-            {
-                foreach (DataGridViewCell data in row.Cells)
-                {
-                    var date = Convert.ToDateTime(string.Concat(monthLabel.Text, data.Value, ",", yearLabel.Text));
-                    if (AppointmentMarker(date))
-                    {
-                        data.Style.BackColor = Color.Yellow;
-                    }
-                    else
-                    {
-                        data.Style.BackColor = Color.White;
-                    }
-                    if (data.Value == cell)
-                    {
-                        data.Selected = true;
-                    }
-                }
-            }
-            appointmentsTable.ClearSelection();
-        }
-
-        private void calendar_CellContentClick(object sender, DataGridViewCellEventArgs e)
-        {
-            var row = calendar.CurrentRow.Index;
-            var cell = calendar.CurrentCell.Value;
-            WeekView(row, cell);
-            var date = Convert.ToDateTime(string.Concat(monthLabel.Text, cell, ",", yearLabel.Text));
-            AppointmentsDisplay(date);
-        }
-        private void appointmentsTable_CellContentClick(object sender, DataGridViewCellEventArgs e)
-        {
-            Repo.IndexItem = Convert.ToInt32(appointmentsTable.SelectedRows[0].Cells[0].Value);
-        }
-
-        private void weekCal_CellContentClick(object sender, DataGridViewCellEventArgs e)
-        {
-            var cell = weekCal.CurrentCell.Value;
-            foreach (DataGridViewRow row in calendar.Rows)
-            {
-                foreach (DataGridViewCell data in row.Cells)
-                {
-                    if (data.Value == cell)
-                    {
-                        data.Selected = true;
-                        var date = Convert.ToDateTime(string.Concat(monthLabel.Text, cell, ",", yearLabel.Text));
-                        AppointmentsDisplay(date);
-                        return;
-                    }
-                }
-            }
         }
         #endregion
 
@@ -397,6 +388,8 @@ namespace KordellGiffordSoftwareII
 
         private void exitBtn_Click(object sender, EventArgs e)
         {
+            Login login = new Login();
+            login.SetInactive();
             Application.Exit();
         }
         private void customerRecords_Click(object sender, EventArgs e)
@@ -471,38 +464,65 @@ namespace KordellGiffordSoftwareII
         }
         #endregion
 
+        #region Timers
         private void timer1_Tick(object sender, EventArgs e)
         {
-            CultureInfo ci = new CultureInfo(CultureInfo.CurrentCulture.TwoLetterISOLanguageName);
+            try
+            {
+                CultureInfo ci = new CultureInfo(CultureInfo.CurrentCulture.TwoLetterISOLanguageName);
 
-            ResourceManager rm = new ResourceManager("KordellGiffordSoftwareII.Languages.Messages", typeof(Login).Assembly);
-            appointmentsLabel.Text = rm.GetString("appointment", ci);
-            customerRecords.Text = rm.GetString("customers", ci);
-            this.Text = rm.GetString("main screen", ci);
-            reportsBtn.Text = rm.GetString("reports", ci);
-            addAppBtn.Text = rm.GetString("add apoint", ci);
-            updateAptBtn.Text = rm.GetString("update appoint", ci);
-            deleteAptBtn.Text = rm.GetString("delete appoint", ci);
-            exitBtn.Text = rm.GetString("close", ci);
-            weekLabel.Text = rm.GetString("week view", ci);
-            calendar.Columns[0].HeaderText = rm.GetString("sunday", ci);
-            calendar.Columns[1].HeaderText = rm.GetString("monday", ci);
-            calendar.Columns[2].HeaderText = rm.GetString("tuesday", ci);
-            calendar.Columns[3].HeaderText = rm.GetString("wednesday", ci);
-            calendar.Columns[4].HeaderText = rm.GetString("thursday", ci);
-            calendar.Columns[5].HeaderText = rm.GetString("friday", ci);
-            calendar.Columns[6].HeaderText = rm.GetString("saturday", ci);
-            weekCal.Columns[0].HeaderText = rm.GetString("sunday", ci);
-            weekCal.Columns[1].HeaderText = rm.GetString("monday", ci);
-            weekCal.Columns[2].HeaderText = rm.GetString("tuesday", ci);
-            weekCal.Columns[3].HeaderText = rm.GetString("wednesday", ci);
-            weekCal.Columns[4].HeaderText = rm.GetString("thursday", ci);
-            weekCal.Columns[5].HeaderText = rm.GetString("friday", ci);
-            weekCal.Columns[6].HeaderText = rm.GetString("saturday", ci);
-            appointmentsTable.Columns[1].HeaderText = rm.GetString("apt title", ci);
-            appointmentsTable.Columns[2].HeaderText = rm.GetString("start time", ci);
-            appointmentsTable.Columns[3].HeaderText = rm.GetString("end time", ci);
-            ci.ClearCachedData();
+                appointmentsLabel.Text = rm.GetString("appointment", ci);
+                customerRecords.Text = rm.GetString("customers", ci);
+                this.Text = rm.GetString("main screen", ci);
+                reportsBtn.Text = rm.GetString("reports", ci);
+                addAppBtn.Text = rm.GetString("add apoint", ci);
+                updateAptBtn.Text = rm.GetString("update appoint", ci);
+                deleteAptBtn.Text = rm.GetString("delete appoint", ci);
+                exitBtn.Text = rm.GetString("close", ci);
+                weekLabel.Text = rm.GetString("week view", ci);
+                calendar.Columns[0].HeaderText = rm.GetString("sunday", ci);
+                calendar.Columns[1].HeaderText = rm.GetString("monday", ci);
+                calendar.Columns[2].HeaderText = rm.GetString("tuesday", ci);
+                calendar.Columns[3].HeaderText = rm.GetString("wednesday", ci);
+                calendar.Columns[4].HeaderText = rm.GetString("thursday", ci);
+                calendar.Columns[5].HeaderText = rm.GetString("friday", ci);
+                calendar.Columns[6].HeaderText = rm.GetString("saturday", ci);
+                weekCal.Columns[0].HeaderText = rm.GetString("sunday", ci);
+                weekCal.Columns[1].HeaderText = rm.GetString("monday", ci);
+                weekCal.Columns[2].HeaderText = rm.GetString("tuesday", ci);
+                weekCal.Columns[3].HeaderText = rm.GetString("wednesday", ci);
+                weekCal.Columns[4].HeaderText = rm.GetString("thursday", ci);
+                weekCal.Columns[5].HeaderText = rm.GetString("friday", ci);
+                weekCal.Columns[6].HeaderText = rm.GetString("saturday", ci);
+                appointmentsTable.Columns[1].HeaderText = rm.GetString("apt title", ci);
+                appointmentsTable.Columns[2].HeaderText = rm.GetString("start time", ci);
+                appointmentsTable.Columns[3].HeaderText = rm.GetString("end time", ci);
+                ci.ClearCachedData();
+                Alert();
+            }
+            catch
+            {
+                //intentionally open to allow display to reset without throwing errors
+            }
         }
+
+        private void Alert()
+        {
+            var alerts = Repo.Alerts();
+            if (alerts != null)
+            {
+                foreach (var item in alerts)
+                {
+                    //This is a LINQ expression, Applying a lambda expression is a simpler and easy to read syntax.
+                    Repo.appointments1.Where(x => x.appointmentId == item.Item1).ToList().ForEach(x => x.alert = 1);
+                    Repo.alerted.Add(item.Item1);
+                    var name = item.Item2;
+                    CultureInfo ci = new CultureInfo(CultureInfo.CurrentCulture.TwoLetterISOLanguageName);
+                    DialogResult dialogResult = MessageBox.Show($"{name}" + rm.GetString("15", ci));
+                    ci.ClearCachedData();
+                }
+            }
+        }
+        #endregion
     }
 }
