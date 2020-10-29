@@ -129,7 +129,7 @@ namespace KordellGiffordSoftwareII
                         startDate = row["start"].ToString();
                         endDate = row["end"].ToString();
                         reports.Text = reports.Text +
-                            "\tStart:\t" + startDate + "\tEnd:\t" + endDate +"\r\n\r";
+                            "\tStart:\t" + TimeZoneInfo.ConvertTimeFromUtc(Convert.ToDateTime(startDate), TimeZoneInfo.Local) + "\tEnd:\t" + TimeZoneInfo.ConvertTimeFromUtc(Convert.ToDateTime(endDate), TimeZoneInfo.Local) + "\r\n\r";
                         reports.Select(0, 0);
                     }
                 }

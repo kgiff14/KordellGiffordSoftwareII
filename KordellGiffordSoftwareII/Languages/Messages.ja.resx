@@ -184,7 +184,7 @@
     <value>確認</value>
   </data>
   <data name="confirm delete" xml:space="preserve">
-    <value>消去してもよろしいですか？</value>
+    <value>消去してもよろしいですか</value>
   </data>
   <data name="contact" xml:space="preserve">
     <value>連絡先</value>
@@ -194,6 +194,9 @@
   </data>
   <data name="cust add" xml:space="preserve">
     <value>顧客が追加されました。</value>
+  </data>
+  <data name="cust and apt" xml:space="preserve">
+    <value>顧客は予定に割り当てられています</value>
   </data>
   <data name="cust delete" xml:space="preserve">
     <value>削除されました。</value>

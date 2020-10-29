@@ -61,7 +61,7 @@ namespace KordellGiffordSoftwareII
                     var customerName = customerList.SelectedRows[0].Cells[1].Value.ToString();
                     int customerId = Convert.ToInt32(customerList.SelectedRows[0].Cells[0].Value.ToString());
                     CultureInfo ci = new CultureInfo(CultureInfo.CurrentCulture.TwoLetterISOLanguageName);
-                    DialogResult dialogResult = MessageBox.Show(rm.GetString("confirm delete", ci) + $"{customerName}?", rm.GetString("Confirm", ci), MessageBoxButtons.YesNo);
+                    DialogResult dialogResult = MessageBox.Show(rm.GetString("confirm delete", ci) + $"{customerName}?", rm.GetString("confirm", ci), MessageBoxButtons.YesNo);
                     if (dialogResult == DialogResult.Yes)
                     {
                         if (Repo.DeleteCustomer(customerId))
@@ -76,7 +76,7 @@ namespace KordellGiffordSoftwareII
                     }
                     ci.ClearCachedData();
                 }
-                catch (Exception)
+                catch (Exception ex)
                 {
                     CultureInfo ci = new CultureInfo(CultureInfo.CurrentCulture.TwoLetterISOLanguageName);
                     MessageBox.Show(rm.GetString("customer not deleted", ci));

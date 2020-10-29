@@ -184,7 +184,7 @@
     <value>Confirm</value>
   </data>
   <data name="confirm delete" xml:space="preserve">
-    <value>Are you sure you want to delete?</value>
+    <value>Are you sure you want to delete </value>
   </data>
   <data name="contact" xml:space="preserve">
     <value>contact</value>
@@ -194,6 +194,9 @@
   </data>
   <data name="cust add" xml:space="preserve">
     <value>Customer has been added.</value>
+  </data>
+  <data name="cust and apt" xml:space="preserve">
+    <value>Customer is assigned to an appointment.</value>
   </data>
   <data name="cust delete" xml:space="preserve">
     <value> has been deleted.</value>
@@ -215,6 +218,9 @@
   </data>
   <data name="custId" xml:space="preserve">
     <value>Customer Id</value>
+  </data>
+  <data name="customer not deleted" xml:space="preserve">
+    <value>Unable to delete customer.</value>
   </data>
   <data name="customers" xml:space="preserve">
     <value>Customers</value>

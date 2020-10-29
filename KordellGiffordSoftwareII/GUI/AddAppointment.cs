@@ -59,14 +59,14 @@ namespace KordellGiffordSoftwareII
             var startTime = startDate.Value.Date + this.startTime.Value.TimeOfDay;
             var endTime = endDate.Value.Date + this.endTime.Value.TimeOfDay;
             //This is a LINQ expression, Applying a lambda expression is a simpler and easy to read syntax.
-            bool overlap = Repo.appointments1.Any(x => startTime.ToUniversalTime() < x.end && endTime.ToUniversalTime() > x.start);
+            bool overlap = Repo.appointments1.Any(x => startTime < x.end && endTime > x.start);
             TimeSpan start = new TimeSpan(17, 0, 0);
             TimeSpan end = new TimeSpan(8, 0, 0);
             if (endDate.Value.Date.DayOfWeek == DayOfWeek.Sunday || endDate.Value.Date.DayOfWeek == DayOfWeek.Saturday ||
                     startDate.Value.Date.DayOfWeek == DayOfWeek.Sunday || startDate.Value.Date.DayOfWeek == DayOfWeek.Saturday ||
                     (this.startTime.Value.TimeOfDay < end || this.startTime.Value.TimeOfDay > start) ||
                     (this.endTime.Value.TimeOfDay < end || this.endTime.Value.TimeOfDay > start) ||
-                    this.startTime.Value.TimeOfDay > this.endTime.Value.TimeOfDay)
+                    this.startDate.Value.Date > this.endDate.Value.Date)
             {
                 CultureInfo ci = new CultureInfo(CultureInfo.CurrentCulture.TwoLetterISOLanguageName);
                 MessageBox.Show(rm.GetString("bad time", ci));

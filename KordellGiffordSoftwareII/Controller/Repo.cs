@@ -1,11 +1,14 @@
 ﻿using MySql.Data.MySqlClient;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
+using System.Resources;
 using System.Runtime.CompilerServices;
 using System.Security.Policy;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace KordellGiffordSoftwareII.Controller
 {
@@ -17,7 +20,7 @@ namespace KordellGiffordSoftwareII.Controller
         public static int Index;
         public static int IndexItem;
         public static Tuple<int, string, int> uId { get; set; }
-
+        public static ResourceManager rm = new ResourceManager("KordellGiffordSoftwareII.Languages.Messages", typeof(Login).Assembly);
         #region Customer Manipulation
         public static List<Customers> GetAllCustomers()
         {
@@ -51,6 +54,13 @@ namespace KordellGiffordSoftwareII.Controller
                 da.CloseConnection();
 
                 return true;
+            }
+            catch (Exception e) when (e.Message.ToLower().Contains("cannot delete or update a parent row: a foreign key constraint fails"))
+            {
+                CultureInfo ci = new CultureInfo(CultureInfo.CurrentCulture.TwoLetterISOLanguageName);
+                MessageBox.Show(rm.GetString("cust and apt", ci));
+                ci.ClearCachedData();
+                return false;
             }
             catch (Exception e)
             {

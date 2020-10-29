@@ -103,7 +103,7 @@ namespace KordellGiffordSoftwareII
                     startDate.Value.Date.DayOfWeek == DayOfWeek.Sunday || startDate.Value.Date.DayOfWeek == DayOfWeek.Saturday ||
                     (this.startTime.Value.TimeOfDay < end || this.startTime.Value.TimeOfDay > start) ||
                     (this.endTime.Value.TimeOfDay < end || this.endTime.Value.TimeOfDay > start) ||
-                    this.startTime.Value.TimeOfDay > this.endTime.Value.TimeOfDay)
+                    this.startDate.Value.Date > this.endDate.Value.Date)
                 {
                     CultureInfo ci = new CultureInfo(CultureInfo.CurrentCulture.TwoLetterISOLanguageName);
                     MessageBox.Show(rm.GetString("bad time", ci));
