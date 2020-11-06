@@ -1,4 +1,4 @@
-﻿using KordellGiffordSoftwareII.Controller;
+﻿using KordellGiffordCapstone.Controller;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -11,7 +11,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace KordellGiffordSoftwareII
+namespace KordellGiffordCapstone
 {
     public partial class CustomerScreen : Form
     {

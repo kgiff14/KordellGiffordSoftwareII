@@ -1,4 +1,4 @@
-﻿using KordellGiffordSoftwareII.Controller;
+﻿using KordellGiffordCapstone.Controller;
 using MySql.Data.MySqlClient;
 using System;
 using System.Collections.Generic;
@@ -14,7 +14,7 @@ using System.Drawing.Text;
 using System.Globalization;
 using System.Resources;
 
-namespace KordellGiffordSoftwareII
+namespace KordellGiffordCapstone
 {
     public partial class Login : Form
     {

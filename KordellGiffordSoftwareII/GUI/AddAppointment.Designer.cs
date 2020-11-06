@@ -1,4 +1,4 @@
-﻿namespace KordellGiffordSoftwareII
+﻿namespace KordellGiffordCapstone
 {
     partial class AddAppointment
     {

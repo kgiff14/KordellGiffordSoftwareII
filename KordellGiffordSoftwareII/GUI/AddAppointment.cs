@@ -1,4 +1,4 @@
-﻿using KordellGiffordSoftwareII.Controller;
+﻿using KordellGiffordCapstone.Controller;
 using MySql.Data.MySqlClient;
 using System;
 using System.Collections.Generic;
@@ -12,7 +12,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace KordellGiffordSoftwareII
+namespace KordellGiffordCapstone
 {
     public partial class AddAppointment : Form
     {

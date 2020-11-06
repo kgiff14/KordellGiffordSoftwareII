@@ -51,6 +51,7 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Controller\IShare.cs" />
     <Compile Include="Controller\Repo.cs" />
     <Compile Include="GUI\AddAppointment.cs">
       <SubType>Form</SubType>

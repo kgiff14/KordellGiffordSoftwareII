@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30413.136
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KordellGiffordSoftwareII", "KordellGiffordSoftwareII\KordellGiffordSoftwareII.csproj", "{182FDF84-974B-4139-8E32-D1D712C2C787}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KordellGiffordCapstone", "KordellGiffordSoftwareII\KordellGiffordCapstone.csproj", "{182FDF84-974B-4139-8E32-D1D712C2C787}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -1,4 +1,4 @@
-﻿namespace KordellGiffordSoftwareII
+﻿namespace KordellGiffordCapstone
 {
     partial class MainScreen
     {
@@ -49,6 +49,8 @@
             this.reportsBtn = new System.Windows.Forms.Button();
             this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
+            this.searchCustomer = new System.Windows.Forms.ComboBox();
+            this.searchBtn = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.appointmentsTable)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.calendar)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.weekCal)).BeginInit();
@@ -237,12 +239,32 @@
             this.timer1.Enabled = true;
             this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
             // 
+            // searchCustomer
+            // 
+            this.searchCustomer.FormattingEnabled = true;
+            this.searchCustomer.Location = new System.Drawing.Point(1044, 36);
+            this.searchCustomer.Name = "searchCustomer";
+            this.searchCustomer.Size = new System.Drawing.Size(158, 21);
+            this.searchCustomer.TabIndex = 14;
+            // 
+            // searchBtn
+            // 
+            this.searchBtn.Location = new System.Drawing.Point(1208, 34);
+            this.searchBtn.Name = "searchBtn";
+            this.searchBtn.Size = new System.Drawing.Size(75, 23);
+            this.searchBtn.TabIndex = 15;
+            this.searchBtn.Text = "Search";
+            this.searchBtn.UseVisualStyleBackColor = true;
+            this.searchBtn.Click += new System.EventHandler(this.searchBtn_Click);
+            // 
             // MainScreen
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.GradientActiveCaption;
             this.ClientSize = new System.Drawing.Size(1296, 994);
+            this.Controls.Add(this.searchBtn);
+            this.Controls.Add(this.searchCustomer);
             this.Controls.Add(this.flowLayoutPanel1);
             this.Controls.Add(this.weekLabel);
             this.Controls.Add(this.weekCal);
@@ -288,5 +310,7 @@
         private System.Windows.Forms.Button reportsBtn;
         private System.ComponentModel.BackgroundWorker backgroundWorker1;
         private System.Windows.Forms.Timer timer1;
+        private System.Windows.Forms.ComboBox searchCustomer;
+        private System.Windows.Forms.Button searchBtn;
     }
 }

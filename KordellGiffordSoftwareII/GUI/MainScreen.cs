@@ -1,4 +1,4 @@
-﻿using KordellGiffordSoftwareII.Controller;
+﻿using KordellGiffordCapstone.Controller;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -12,7 +12,7 @@ using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace KordellGiffordSoftwareII
+namespace KordellGiffordCapstone
 {
     public partial class MainScreen : Form
     {
@@ -27,6 +27,10 @@ namespace KordellGiffordSoftwareII
         private void MainScreen_Load(object sender, EventArgs e)
         {
             DatePopulation();
+            var all = Repo.GetAllCustomers();
+            List<string> names = all.Select(x =>  x.customerName).ToList();
+            searchCustomer.DataSource = names;
+            Repo.customers.Clear();
         }
 
         public void Display()
@@ -524,5 +528,44 @@ namespace KordellGiffordSoftwareII
             }
         }
         #endregion
+
+        private void searchBtn_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                Repo repo = new Repo();
+                //Grab all the customers and put it into a generic list.
+                var all = Repo.GetAllCustomers();
+                Customers customerSearch = all.Where(x => x.customerName == searchCustomer.Text).First();
+                if (repo.SearchDataByCustomer(customerSearch))
+                {
+                    List<Tuple<int, string, DateTime, DateTime>> apt = Repo.appointmentsSearch.Select(x => 
+                        new Tuple<int, string, DateTime, DateTime>(x.appointmentId, x.title, x.start, x.end)).ToList();
+                    if (apt.Count == 0)
+                    {
+                        MessageBox.Show("There are no appointments for this customer.");
+                    }
+                    else
+                    {
+                        appointmentsTable.DataSource = apt;
+                        appointmentsTable.Columns[0].HeaderText = "";
+                        appointmentsTable.Columns[0].Visible = false;
+                        appointmentsTable.Columns[1].HeaderText = "";
+                        appointmentsTable.Columns[2].HeaderText = "";
+                        appointmentsTable.Columns[3].HeaderText = "";
+                        appointmentsTable.ClearSelection();
+                        Repo.customers.Clear();
+                    }
+                }
+                else
+                {
+                    MessageBox.Show("Unable to retrieve appointments.");
+                }
+            }
+            catch
+            {
+                MessageBox.Show("Entered value is not valid.");
+            }
+        }
     }
 }

@@ -7,9 +7,9 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace KordellGiffordSoftwareII
+namespace KordellGiffordCapstone
 {
-    class DataAccess
+    public class DataAccess
     {
         private MySqlConnection connection;
         private string server;
@@ -24,10 +24,10 @@ namespace KordellGiffordSoftwareII
 
         private void Initialize()
         {
-            server = "wgudb.ucertify.com,3306";
-            database = "U07wQh";
-            uid = "U07wQh";
-            password = "53689154201";
+            server = "127.0.0.1,3306";
+            database = "capstone";
+            uid = "root";
+            password = "Jigokunotachi32!";
             string connectionString;
             connectionString = "SERVER=" + server + ";" + "DATABASE=" + database + ";" + "UID=" + uid + ";" + "PASSWORD=" + password + ";";
 

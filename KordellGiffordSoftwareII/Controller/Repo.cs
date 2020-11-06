@@ -10,23 +10,24 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace KordellGiffordSoftwareII.Controller
+namespace KordellGiffordCapstone.Controller
 {
-    public static class Repo
+    public class Repo : DataAccess, IShare
     {
         public static List<Customers> customers = new List<Customers>();
         public static List<Appointments> appointments1 = new List<Appointments>();
+        public static List<Appointments> appointmentsSearch = new List<Appointments>();
         public static List<int> alerted = new List<int>();
         public static int Index;
         public static int IndexItem;
+        private static readonly DataAccess da = new DataAccess();
         public static Tuple<int, string, int> uId { get; set; }
         public static ResourceManager rm = new ResourceManager("KordellGiffordSoftwareII.Languages.Messages", typeof(Login).Assembly);
         #region Customer Manipulation
         public static List<Customers> GetAllCustomers()
         {
-            customers.Clear();
-            DataAccess da = new DataAccess();
             da.OpenConnection();
+            customers.Clear();
             var command = new MySqlCommand("GetAllCustomers", da.connectionS());
             command.CommandType = System.Data.CommandType.StoredProcedure;
             using (MySqlDataReader rdr = command.ExecuteReader())
@@ -45,7 +46,6 @@ namespace KordellGiffordSoftwareII.Controller
         {
             try
             {
-                DataAccess da = new DataAccess();
                 da.OpenConnection();
                 var command = new MySqlCommand("DeleteCustomer", da.connectionS());
                 command.CommandType = System.Data.CommandType.StoredProcedure;
@@ -72,7 +72,6 @@ namespace KordellGiffordSoftwareII.Controller
         {
             try
             {
-                DataAccess da = new DataAccess();
                 da.OpenConnection();
                 var command = new MySqlCommand("AddCustomer", da.connectionS());
                 command.CommandType = System.Data.CommandType.StoredProcedure;
@@ -98,7 +97,6 @@ namespace KordellGiffordSoftwareII.Controller
         {
             try
             {
-                DataAccess da = new DataAccess();
                 da.OpenConnection();
                 var command = new MySqlCommand("ModifyCustomer", da.connectionS());
                 command.CommandType = System.Data.CommandType.StoredProcedure;
@@ -126,7 +124,6 @@ namespace KordellGiffordSoftwareII.Controller
         {
             try
             {
-                DataAccess da = new DataAccess();
                 da.OpenConnection();
                 var command = new MySqlCommand("AddAppointment", da.connectionS());
                 command.CommandType = System.Data.CommandType.StoredProcedure;
@@ -159,7 +156,6 @@ namespace KordellGiffordSoftwareII.Controller
             {
                 Repo.appointments1.Clear();
 
-                DataAccess da = new DataAccess();
                 da.OpenConnection();
                 var command = new MySqlCommand("GetAppointments", da.connectionS());
                 command.CommandType = System.Data.CommandType.StoredProcedure;
@@ -187,7 +183,6 @@ namespace KordellGiffordSoftwareII.Controller
         {
             try
             {
-                DataAccess da = new DataAccess();
                 da.OpenConnection();
                 var command = new MySqlCommand("DeleteAppointment", da.connectionS());
                 command.CommandType = System.Data.CommandType.StoredProcedure;
@@ -207,7 +202,6 @@ namespace KordellGiffordSoftwareII.Controller
         {
             try
             {
-                DataAccess da = new DataAccess();
                 da.OpenConnection();
                 var command = new MySqlCommand("ModifyAppointment", da.connectionS());
                 command.CommandType = System.Data.CommandType.StoredProcedure;
@@ -234,6 +228,34 @@ namespace KordellGiffordSoftwareII.Controller
         }
         #endregion
 
+        public bool SearchDataByCustomer(Customers customers)
+        {
+            try
+            {
+                Repo.appointmentsSearch.Clear();
+
+                da.OpenConnection();
+                var command = new MySqlCommand("searchCustomerApt", da.connectionS());
+                command.CommandType = System.Data.CommandType.StoredProcedure;
+                command.Parameters.Add("@id", MySqlDbType.Int32).Value = customers.customerId;
+                using (MySqlDataReader rdr = command.ExecuteReader())
+                {
+                    while (rdr.Read())
+                    {
+                        appointmentsSearch.Add(new Appointments(Convert.ToInt32(rdr["appointmentId"]), Convert.ToInt32(rdr["customerId"]), Convert.ToInt32(rdr["userId"]),
+                            rdr["title"].ToString(), rdr["description"].ToString(), rdr["location"].ToString(), rdr["contact"].ToString(),
+                            rdr["type"].ToString(), rdr["url"].ToString(), TimeZoneInfo.ConvertTimeFromUtc(Convert.ToDateTime(rdr["start"]), TimeZoneInfo.Local), TimeZoneInfo.ConvertTimeFromUtc(Convert.ToDateTime(rdr["end"]), TimeZoneInfo.Local)));
+                    }
+                }
+                da.CloseConnection();
+                return true;
+            }
+            catch
+            {
+
+                return false;
+            }
+        }
         public static List<Tuple<int, string>> Alerts()
         {
             try
